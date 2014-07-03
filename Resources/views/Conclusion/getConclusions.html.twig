@@ -1,0 +1,11 @@
+<h1 class="title">Parties d'une lesson</h1>
+<ul id="introduction-list">
+{% for introduction in introductions %}
+    <li>
+        <a href="{{ path('api_1_get_lesson_introduction', {'id': introduction.lesson.id, 'introductionId': introduction.id}) }}">{{ introduction.title }}</a>
+        {#[<a href="{{ path('api_1_edit_introductions', {'id': introduction.id}) }}">{{ 'introduction.edit.link'|trans({}, 'n1c0LessonBundle') }}</a>]#}
+        {#[<a href="{{ path('api_1_remove_introductions', {'id': introduction.id}) }}">{{ 'introduction.remove.link'|trans({}, 'n1c0LessonBundle') }}</a>]#}
+    </li>
+    <li>{{ 'introduction.list.empty'|trans({}, 'n1c0LessonBundle') }}</li>
+{% endfor %}
+</ul>

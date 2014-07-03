@@ -1,0 +1,11 @@
+<h1 class="title">{{ 'lesson.list'|trans({}, 'n1c0LessonBundle') }}</h1>
+<ul id="lesson-list">
+{% for lesson in lessons %}
+    <li>
+        <a href="{{ path('api_1_get_lesson', {'id': lesson.id}) }}">{{ lesson.title }}</a>
+        {#[<a href="{{ path('api_1_edit_lessons', {'id': lesson.id}) }}">{{ 'lesson.edit.link'|trans({}, 'n1c0LessonBundle') }}</a>]#}
+        {#[<a href="{{ path('api_1_remove_lessons', {'id': lesson.id}) }}">{{ 'lesson.remove.link'|trans({}, 'n1c0LessonBundle') }}</a>]#}
+    </li>
+{% endfor %}
+</ul>
+<p><a href="{{ path('api_1_new_lesson') }}">{{ 'lesson.new.link'|trans({}, 'n1c0LessonBundle') }}</a></p>

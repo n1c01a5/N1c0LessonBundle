@@ -1,0 +1,59 @@
+n1c0_lesson_lesson:
+    type: rest
+    prefix: /v1
+    resource: N1c0\LessonBundle\Controller\LessonController
+    name_prefix:  api_1_ # naming collision
+
+n1c0_lesson_introduction:
+    type: rest
+    parent: n1c0_lesson_lesson
+    resource: N1c0\LessonBundle\Controller\IntroductionController
+    name_prefix:  api_1_ # naming collision
+
+n1c0_lesson_part:
+    type: rest
+    parent: n1c0_lesson_lesson
+    resource: N1c0\LessonBundle\Controller\PartController
+    name_prefix:  api_1_ # naming collision
+
+n1c0_lesson_argument:
+    type: rest
+    parent: n1c0_lesson_part
+    resource: N1c0\LessonBundle\Controller\ArgumentController
+    name_prefix:  api_1_ # naming collision
+
+n1c0_lesson_conclusion:
+    type: rest
+    parent: n1c0_lesson_lesson
+    resource: N1c0\LessonBundle\Controller\ConclusionController
+    name_prefix:  api_1_ # naming collision
+
+n1c0_lesson_lesson_logs:
+    type: rest
+    parent: n1c0_lesson_lesson
+    resource: N1c0\LessonBundle\Controller\LogLessonController
+    name_prefix:  api_1_ # naming coll
+
+n1c0_lesson_introduction_logs:
+    type: rest
+    parent: n1c0_lesson_introduction
+    resource: N1c0\LessonBundle\Controller\LogIntroductionController
+    name_prefix:  api_1_ # naming collisionision
+
+n1c0_lesson_part_logs:
+    type: rest
+    parent: n1c0_lesson_part
+    resource: N1c0\LessonBundle\Controller\LogPartController
+    name_prefix:  api_1_ # naming collisionision
+
+n1c0_lesson_argument_logs:
+    type: rest
+    parent: n1c0_lesson_argument
+    resource: N1c0\LessonBundle\Controller\LogArgumentController
+    name_prefix:  api_1_ # naming collisionision
+
+n1c0_lesson_conclusion_logs:
+    type: rest
+    parent: n1c0_lesson_conclusion
+    resource: N1c0\LessonBundle\Controller\LogConclusionController
+    name_prefix:  api_1_ # naming collisionision

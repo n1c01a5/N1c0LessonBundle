@@ -1,0 +1,292 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+    <parameters>
+        <parameter key="n1c0_lesson.model.lesson.class">N1c0\LessonBundle\Entity\Lesson</parameter>
+        <parameter key="n1c0_lesson.model.introduction.class">N1c0\LessonBundle\Entity\Introduction</parameter>
+        <parameter key="n1c0_lesson.model.part.class">N1c0\LessonBundle\Entity\Part</parameter>
+        <parameter key="n1c0_lesson.model.argument.class">N1c0\LessonBundle\Entity\Argument</parameter>
+        <parameter key="n1c0_lesson.model.conclusion.class">N1c0\LessonBundle\Entity\Conclusion</parameter>
+        
+        <parameter key="n1c0_lesson.manager.lesson.default.class">N1c0\LessonBundle\Entity\LessonManager</parameter>
+        <parameter key="n1c0_lesson.manager.introduction.default.class">N1c0\LessonBundle\Entity\IntroductionManager</parameter>
+        <parameter key="n1c0_lesson.manager.part.default.class">N1c0\LessonBundle\Entity\PartManager</parameter>
+        <parameter key="n1c0_lesson.manager.argument.default.class">N1c0\LessonBundle\Entity\ArgumentManager</parameter>
+        <parameter key="n1c0_lesson.manager.conclusion.default.class">N1c0\LessonBundle\Entity\ConclusionManager</parameter>
+        <parameter key="n1c0_lesson.listener.lesson_blamer.class">N1c0\LessonBundle\EventListener\LessonBlamerListener</parameter>
+        <parameter key="n1c0_lesson.listener.introduction_blamer.class">N1c0\LessonBundle\EventListener\IntroductionBlamerListener</parameter>
+        <parameter key="n1c0_lesson.listener.part_blamer.class">N1c0\LessonBundle\EventListener\PartBlamerListener</parameter>
+        <parameter key="n1c0_lesson.listener.argument_blamer.class">N1c0\LessonBundle\EventListener\ArgumentBlamerListener</parameter>
+        <parameter key="n1c0_lesson.listener.conclusion_blamer.class">N1c0\LessonBundle\EventListener\ConclusionBlamerListener</parameter>
+        <parameter key="n1c0_lesson.comment.lesson_comment.class">N1c0\LessonBundle\Comment\Thread</parameter>
+        <parameter key="request_stack.class">Symfony\Component\HttpFoundation\RequestStack</parameter>
+        <parameter key="n1c0_lesson.manager.lesson.acl.class">N1c0\LessonBundle\Acl\AclLessonManager</parameter>
+        <parameter key="n1c0_lesson.manager.introduction.acl.class">N1c0\LessonBundle\Acl\AclIntroductionManager</parameter>
+        <parameter key="n1c0_lesson.manager.part.acl.class">N1c0\LessonBundle\Acl\AclPartManager</parameter>
+        <parameter key="n1c0_lesson.manager.argument.acl.class">N1c0\LessonBundle\Acl\AclArgumentManager</parameter>
+        <parameter key="n1c0_lesson.manager.conclusion.acl.class">N1c0\LessonBundle\Acl\AclConclusionManager</parameter>
+        <parameter key="n1c0_lesson.download.lesson.class">N1c0\LessonBundle\Download\DownloadLesson</parameter>
+        <parameter key="n1c0_lesson.download.introduction.class">N1c0\LessonBundle\Download\DownloadIntroduction</parameter>
+        <parameter key="n1c0_lesson.download.part.class">N1c0\LessonBundle\Download\DownloadPart</parameter>
+        <parameter key="n1c0_lesson.download.argument.class">N1c0\LessonBundle\Download\DownloadArgument</parameter>
+        <parameter key="n1c0_lesson.download.conclusion.class">N1c0\LessonBundle\Download\DownloadConclusion</parameter>
+    </parameters>
+
+    <services>
+        <service id="n1c0_lesson.entity_manager" factory-service="doctrine" factory-method="getManager" class="Doctrine\ORM\EntityManager" public="false">
+            <argument>%n1c0_lesson.model_manager_name%</argument>
+        </service>
+    
+        <service id="n1c0_lesson.manager.lesson.default" class="%n1c0_lesson.manager.lesson.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_lesson.entity_manager" />
+            <argument>%n1c0_lesson.model.lesson.class%</argument>
+        </service>
+        <service id="n1c0_lesson.manager.introduction.default" class="%n1c0_lesson.manager.introduction.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_lesson.entity_manager" />
+            <argument>%n1c0_lesson.model.introduction.class%</argument>
+        </service>
+        <service id="n1c0_lesson.manager.part.default" class="%n1c0_lesson.manager.part.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_lesson.entity_manager" />
+            <argument>%n1c0_lesson.model.part.class%</argument>
+        </service>
+        <service id="n1c0_lesson.manager.argument.default" class="%n1c0_lesson.manager.argument.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_lesson.entity_manager" />
+            <argument>%n1c0_lesson.model.argument.class%</argument>
+        </service>
+        <service id="n1c0_lesson.manager.conclusion.default" class="%n1c0_lesson.manager.conclusion.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_lesson.entity_manager" />
+            <argument>%n1c0_lesson.model.conclusion.class%</argument>
+        </service>
+
+        <service id="n1c0_lesson.form_type.lesson.default" class="N1c0\LessonBundle\Form\LessonType">
+            <argument>%n1c0_lesson.model.lesson.class%</argument>
+            <tag name="form.type" alias="n1c0_lesson_lesson" />
+        </service>
+        <service id="n1c0_lesson.form_type.introduction.default" class="N1c0\LessonBundle\Form\IntroductionType">
+            <argument>%n1c0_lesson.model.introduction.class%</argument>
+            <tag name="form.type" alias="n1c0_lesson_introduction" />
+        </service>
+        <service id="n1c0_lesson.form_type.part.default" class="N1c0\LessonBundle\Form\PartType">
+            <argument>%n1c0_lesson.model.part.class%</argument>
+            <tag name="form.type" alias="n1c0_lesson_part" />
+        </service>
+        <service id="n1c0_lesson.form_type.argument.default" class="N1c0\LessonBundle\Form\ArgumentType">
+            <argument>%n1c0_lesson.model.argument.class%</argument>
+            <tag name="form.type" alias="n1c0_lesson_argument" />
+        </service>
+        <service id="n1c0_lesson.form_type.conclusion.default" class="N1c0\LessonBundle\Form\ConclusionType">
+            <argument>%n1c0_lesson.model.conclusion.class%</argument>
+            <tag name="form.type" alias="n1c0_lesson_conclusion" />
+        </service>
+
+        <service id="n1c0_lesson.form_factory.lesson.default" class="N1c0\LessonBundle\FormFactory\LessonFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument>%n1c0_lesson.form.lesson.type%</argument>
+            <argument>%n1c0_lesson.form.lesson.name%</argument>
+        </service>
+        <service id="n1c0_lesson.form_factory.introduction.default" class="N1c0\LessonBundle\FormFactory\IntroductionFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument>%n1c0_lesson.form.introduction.type%</argument>
+            <argument>%n1c0_lesson.form.introduction.name%</argument>
+        </service>
+        <service id="n1c0_lesson.form_factory.part.default" class="N1c0\LessonBundle\FormFactory\PartFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument>%n1c0_lesson.form.part.type%</argument>
+            <argument>%n1c0_lesson.form.part.name%</argument>
+        </service>
+        <service id="n1c0_lesson.form_factory.argument.default" class="N1c0\LessonBundle\FormFactory\ArgumentFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument>%n1c0_lesson.form.argument.type%</argument>
+            <argument>%n1c0_lesson.form.argument.name%</argument>
+        </service>
+        <service id="n1c0_lesson.form_factory.conclusion.default" class="N1c0\LessonBundle\FormFactory\ConclusionFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument>%n1c0_lesson.form.conclusion.type%</argument>
+            <argument>%n1c0_lesson.form.conclusion.name%</argument>
+        </service>
+
+        <service id="n1c0_lesson.listener.lesson_blamer" class="%n1c0_lesson.listener.lesson_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+        <service id="n1c0_lesson.listener.introduction_blamer" class="%n1c0_lesson.listener.introduction_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+        <service id="n1c0_lesson.listener.part_blamer" class="%n1c0_lesson.listener.part_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+        <service id="n1c0_lesson.listener.argument_blamer" class="%n1c0_lesson.listener.argument_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+        <service id="n1c0_lesson.listener.conclusion_blamer" class="%n1c0_lesson.listener.conclusion_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="n1c0_lesson.comment.lesson_comment.default" class="%n1c0_lesson.comment.lesson_comment.class%">
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="fos_comment.manager.thread" on-invalid="null" />
+            <argument type="service" id="fos_comment.manager.comment" on-invalid="null" />
+        </service>
+
+        <service id="n1c0_lesson.acl.lesson.security" class="N1c0\LessonBundle\Acl\SecurityLessonAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_lesson.model.lesson.class%</argument>
+        </service>
+
+        <service id="n1c0_lesson.acl.lesson.roles" class="N1c0\LessonBundle\Acl\RoleLessonAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_lesson.model.lesson.class%</argument>
+        </service>
+
+        <service id="n1c0_lesson.manager.lesson.acl" class="%n1c0_lesson.manager.lesson.acl.class%" public="false">
+            <argument type="service" id="n1c0_lesson.manager.lesson.default" />
+            <argument type="service" id="n1c0_lesson.acl.lesson" />
+        </service>
+
+        <service id="n1c0_lesson.acl.introduction.security" class="N1c0\LessonBundle\Acl\SecurityIntroductionAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_lesson.model.introduction.class%</argument>
+        </service>
+
+        <service id="n1c0_lesson.acl.introduction.roles" class="N1c0\LessonBundle\Acl\RoleIntroductionAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_lesson.model.introduction.class%</argument>
+        </service>
+
+        <service id="n1c0_lesson.manager.introduction.acl" class="%n1c0_lesson.manager.introduction.acl.class%" public="false">
+            <argument type="service" id="n1c0_lesson.manager.introduction.default" />
+            <argument type="service" id="n1c0_lesson.acl.introduction" />
+        </service>
+
+        <service id="n1c0_lesson.acl.part.security" class="N1c0\LessonBundle\Acl\SecurityPartAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_lesson.model.part.class%</argument>
+        </service>
+
+        <service id="n1c0_lesson.acl.part.roles" class="N1c0\LessonBundle\Acl\RolePartAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_lesson.model.part.class%</argument>
+        </service>
+
+        <service id="n1c0_lesson.manager.part.acl" class="%n1c0_lesson.manager.part.acl.class%" public="false">
+            <argument type="service" id="n1c0_lesson.manager.part.default" />
+            <argument type="service" id="n1c0_lesson.acl.part" />
+        </service>
+
+        <service id="n1c0_lesson.acl.argument.security" class="N1c0\LessonBundle\Acl\SecurityArgumentAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_lesson.model.argument.class%</argument>
+        </service>
+
+        <service id="n1c0_lesson.acl.argument.roles" class="N1c0\LessonBundle\Acl\RoleArgumentAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_lesson.model.argument.class%</argument>
+        </service>
+
+        <service id="n1c0_lesson.manager.argument.acl" class="%n1c0_lesson.manager.argument.acl.class%" public="false">
+            <argument type="service" id="n1c0_lesson.manager.argument.default" />
+            <argument type="service" id="n1c0_lesson.acl.argument" />
+        </service>
+
+        <service id="n1c0_lesson.acl.conclusion.security" class="N1c0\LessonBundle\Acl\SecurityConclusionAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_lesson.model.conclusion.class%</argument>
+        </service>
+
+        <service id="n1c0_lesson.acl.conclusion.roles" class="N1c0\LessonBundle\Acl\RoleConclusionAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_lesson.model.conclusion.class%</argument>
+        </service>
+
+        <service id="n1c0_lesson.manager.conclusion.acl" class="%n1c0_lesson.manager.conclusion.acl.class%" public="false">
+            <argument type="service" id="n1c0_lesson.manager.conclusion.default" />
+            <argument type="service" id="n1c0_lesson.acl.conclusion" />
+        </service>
+
+        <service id="n1c0_lesson.listener.lesson_markup" class="N1c0\LessonBundle\EventListener\LessonMarkupListener"><!-- If markup load -->
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="n1c0_lesson.markup" />
+        </service>
+        <service id="n1c0_lesson.listener.introduction_markup" class="N1c0\LessonBundle\EventListener\IntroductionMarkupListener"><!-- If markup load -->
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="n1c0_lesson.markup" />
+        </service>
+<service id="n1c0_lesson.listener.part_markup" class="N1c0\LessonBundle\EventListener\PartMarkupListener"><!-- If markup load -->
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="n1c0_lesson.markup" />
+        </service>
+        <service id="n1c0_lesson.listener.argument_markup" class="N1c0\LessonBundle\EventListener\ArgumentMarkupListener"><!-- If markup load -->
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="n1c0_lesson.markup" />
+        </service>
+        <service id="n1c0_lesson.listener.conclusion_markup" class="N1c0\LessonBundle\EventListener\ConclusionMarkupListener"><!-- If markup load -->
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="n1c0_lesson.markup" />
+        </service>
+
+        <service id="n1c0_lesson.lesson.download" class="%n1c0_lesson.download.lesson.class%">
+            <argument type="service" id="n1c0_lesson.manager.lesson" on-invalid="null" />
+        </service>
+        <service id="n1c0_lesson.introduction.download" class="%n1c0_lesson.download.introduction.class%">
+            <argument type="service" id="n1c0_lesson.manager.introduction" on-invalid="null" />
+        </service>
+        <service id="n1c0_lesson.part.download" class="%n1c0_lesson.download.part.class%">
+            <argument type="service" id="n1c0_lesson.manager.part" on-invalid="null" />
+        </service>
+        <service id="n1c0_lesson.argument.download" class="%n1c0_lesson.download.argument.class%">
+            <argument type="service" id="n1c0_lesson.manager.argument" on-invalid="null" />
+        </service>
+        <service id="n1c0_lesson.conclusion.download" class="%n1c0_lesson.download.conclusion.class%">
+            <argument type="service" id="n1c0_lesson.manager.conclusion" on-invalid="null" />
+        </service>
+    </services>
+
+</container>
