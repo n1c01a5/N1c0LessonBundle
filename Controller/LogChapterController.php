@@ -11,7 +11,7 @@ use FOS\RestBundle\Controller\Annotations;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class LogPartController extends FOSRestController
+class LogChapterController extends FOSRestController
 {
     /**
      * Gets logs.
@@ -28,27 +28,27 @@ class LogPartController extends FOSRestController
      *
      *
      * @Annotations\View(
-     *  template = "N1c0LessonBundle:Part:getLogs.html.twig",
+     *  template = "N1c0LessonBundle:Chapter:getLogs.html.twig",
      *  templateVar="logs"   
      * )
      *
      * @param int                   $id                   the lesson id
-     * @param int                   $partId           the partentity id
+     * @param int                   $chapterId           the chapterentity id
      *
      * @return array
      *
      * @throws NotFoundHttpException when entity not exist
      */
-    public function getLogsAction($id, $partId)
+    public function getLogsAction($id, $chapterId)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('Gedmo\Loggable\Entity\LogEntry');
 
-        if ($part = $this->container->get('n1c0_lesson.manager.part')->findPartById($partId)) {
-            $entity = $em->find('Bundle\LessonBundle\Entity\Part', $part->getId());
+        if ($chapter = $this->container->get('n1c0_lesson.manager.chapter')->findChapterById($chapterId)) {
+            $entity = $em->find('Bundle\LessonBundle\Entity\Chapter', $chapter->getId());
         }
         else {
-            throw new NotFoundHttpException(sprintf('Entity with identifier of "%s" does not exist', $partId));
+            throw new NotFoundHttpException(sprintf('Entity with identifier of "%s" does not exist', $chapterId));
         }
 
         $logs = $repo->getLogEntries($entity);

@@ -50,12 +50,12 @@ Interface ArgumentInterface
     public function getCreatedAt();
 
     /**
-     * @return PartInterface
+     * @return ChapterInterface
      */
-    public function getPart();
+    public function getChapter();
 
     /**
-     * @param PartInterface $part
+     * @param ChapterInterface $chapter
      */
-    public function setPart(PartInterface $part);
+    public function setChapter(ChapterInterface $chapter);
 }

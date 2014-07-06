@@ -10,15 +10,15 @@ n1c0_lesson_introduction:
     resource: N1c0\LessonBundle\Controller\IntroductionController
     name_prefix:  api_1_ # naming collision
 
-n1c0_lesson_part:
+n1c0_lesson_chapter:
     type: rest
     parent: n1c0_lesson_lesson
-    resource: N1c0\LessonBundle\Controller\PartController
+    resource: N1c0\LessonBundle\Controller\ChapterController
     name_prefix:  api_1_ # naming collision
 
 n1c0_lesson_argument:
     type: rest
-    parent: n1c0_lesson_part
+    parent: n1c0_lesson_chapter
     resource: N1c0\LessonBundle\Controller\ArgumentController
     name_prefix:  api_1_ # naming collision
 
@@ -40,10 +40,10 @@ n1c0_lesson_introduction_logs:
     resource: N1c0\LessonBundle\Controller\LogIntroductionController
     name_prefix:  api_1_ # naming collisionision
 
-n1c0_lesson_part_logs:
+n1c0_lesson_chapter_logs:
     type: rest
-    parent: n1c0_lesson_part
-    resource: N1c0\LessonBundle\Controller\LogPartController
+    parent: n1c0_lesson_chapter
+    resource: N1c0\LessonBundle\Controller\LogChapterController
     name_prefix:  api_1_ # naming collisionision
 
 n1c0_lesson_argument_logs:

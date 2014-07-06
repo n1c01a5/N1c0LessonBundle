@@ -2,13 +2,13 @@
 
 namespace N1c0\LessonBundle\Acl;
 
-use N1c0\PartBundle\Model\PartInterface;
+use N1c0\ChapterBundle\Model\ChapterInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Implements Role checking using the Symfony2 Security component
  */
-class RolePartAcl implements PartAclInterface
+class RoleChapterAcl implements ChapterAclInterface
 {
     /**
      * The current Security Context.
@@ -18,35 +18,35 @@ class RolePartAcl implements PartAclInterface
     private $securityContext;
 
     /**
-     * The FQCN of the Part object.
+     * The FQCN of the Chapter object.
      *
      * @var string
      */
-    private $partClass;
+    private $chapterClass;
 
     /**
-     * The role that will grant create permission for a part.
+     * The role that will grant create permission for a chapter.
      *
      * @var string
      */
     private $createRole;
 
     /**
-     * The role that will grant view permission for a part.
+     * The role that will grant view permission for a chapter.
      *
      * @var string
      */
     private $viewRole;
 
     /**
-     * The role that will grant edit permission for a part.
+     * The role that will grant edit permission for a chapter.
      *
      * @var string
      */
     private $editRole;
 
     /**
-     * The role that will grant delete permission for a part.
+     * The role that will grant delete permission for a chapter.
      *
      * @var string
      */
@@ -60,14 +60,14 @@ class RolePartAcl implements PartAclInterface
      * @param string                   $viewRole
      * @param string                   $editRole
      * @param string                   $deleteRole
-     * @param string                   $partClass
+     * @param string                   $chapterClass
      */
     public function __construct(SecurityContextInterface $securityContext,
                                 $createRole,
                                 $viewRole,
                                 $editRole,
                                 $deleteRole,
-                                $partClass
+                                $chapterClass
     )
     {
         $this->securityContext   = $securityContext;
@@ -75,11 +75,11 @@ class RolePartAcl implements PartAclInterface
         $this->viewRole          = $viewRole;
         $this->editRole          = $editRole;
         $this->deleteRole        = $deleteRole;
-        $this->partClass      = $partClass;
+        $this->chapterClass      = $chapterClass;
     }
 
     /**
-     * Checks if the Security token has an appropriate role to create a new Part.
+     * Checks if the Security token has an appropriate role to create a new Chapter.
      *
      * @return boolean
      */
@@ -89,23 +89,23 @@ class RolePartAcl implements PartAclInterface
     }
 
     /**
-     * Checks if the Security token is allowed to view the specified Part.
+     * Checks if the Security token is allowed to view the specified Chapter.
      *
-     * @param  PartInterface $part
+     * @param  ChapterInterface $chapter
      * @return boolean
      */
-    public function canView(PartInterface $part)
+    public function canView(ChapterInterface $chapter)
     {
         return $this->securityContext->isGranted($this->viewRole);
     }
 
     /**
-     * Checks if the Security token is allowed to reply to a parent part.
+     * Checks if the Security token is allowed to reply to a parent chapter.
      *
-     * @param  PartInterface|null $parent
+     * @param  ChapterInterface|null $parent
      * @return boolean
      */
-    public function canReply(PartInterface $parent = null)
+    public function canReply(ChapterInterface $parent = null)
     {
         if (null !== $parent) {
             return $this->canCreate() && $this->canView($parent);
@@ -115,23 +115,23 @@ class RolePartAcl implements PartAclInterface
     }
 
     /**
-     * Checks if the Security token has an appropriate role to edit the supplied Part.
+     * Checks if the Security token has an appropriate role to edit the supplied Chapter.
      *
-     * @param  PartInterface $part
+     * @param  ChapterInterface $chapter
      * @return boolean
      */
-    public function canEdit(PartInterface $part)
+    public function canEdit(ChapterInterface $chapter)
     {
         return $this->securityContext->isGranted($this->editRole);
     }
 
     /**
-     * Checks if the Security token is allowed to delete a specific Part.
+     * Checks if the Security token is allowed to delete a specific Chapter.
      *
-     * @param  PartInterface $part
+     * @param  ChapterInterface $chapter
      * @return boolean
      */
-    public function canDelete(PartInterface $part)
+    public function canDelete(ChapterInterface $chapter)
     {
         return $this->securityContext->isGranted($this->deleteRole);
     }
@@ -139,10 +139,10 @@ class RolePartAcl implements PartAclInterface
     /**
      * Role based Acl does not require setup.
      *
-     * @param  PartInterface $part
+     * @param  ChapterInterface $chapter
      * @return void
      */
-    public function setDefaultAcl(PartInterface $part)
+    public function setDefaultAcl(ChapterInterface $chapter)
     {
 
     }

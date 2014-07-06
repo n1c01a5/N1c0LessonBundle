@@ -3,16 +3,16 @@
 namespace N1c0\LessonBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
-use N1c0\LessonBundle\Model\PartManager as BasePartManager;
+use N1c0\LessonBundle\Model\ChapterManager as BaseChapterManager;
 use N1c0\LessonBundle\Model\LessonInterface;
-use N1c0\LessonBundle\Model\PartInterface;
+use N1c0\LessonBundle\Model\ChapterInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Default ORM PartManager.
+ * Default ORM ChapterManager.
  *
  */
-class PartManager extends BasePartManager
+class ChapterManager extends BaseChapterManager
 {
     /**
      * @var EntityManager
@@ -48,12 +48,12 @@ class PartManager extends BasePartManager
     }
 
     /**
-     * Returns a flat array of parts of a specific lesson.
+     * Returns a flat array of chapters of a specific lesson.
      *
      * @param  LessonInterface $lesson
      * @return array           of LessonInterface
      */
-    public function findPartsByLesson(LessonInterface $lesson)
+    public function findChaptersByLesson(LessonInterface $lesson)
     {
         $qb = $this->repository
                 ->createQueryBuilder('a')
@@ -61,18 +61,18 @@ class PartManager extends BasePartManager
                 ->where('d.id = :lesson')
                 ->setParameter('lesson', $lesson->getId());
 
-        $parts = $qb
+        $chapters = $qb
             ->getQuery()
             ->execute();
 
-        return $parts;
+        return $chapters;
     }
 
     /**
-     * Find one part by its ID
+     * Find one chapter by its ID
      *
      * @param  array           $criteria
-     * @return PartInterface
+     * @return ChapterInterface
      */
     public function findLessonById($id)
     {
@@ -80,29 +80,29 @@ class PartManager extends BasePartManager
     }
 
     /**
-     * Finds all Parts.
+     * Finds all Chapters.
      *
-     * @return array of PartInterface
+     * @return array of ChapterInterface
      */
-    public function findAllParts()
+    public function findAllChapters()
     {
         return $this->repository->findAll();
     }
 
     /**
-     * Performs persisting of the part. 
+     * Performs persisting of the chapter. 
      *
      * @param LessonInterface $lesson
      */
-    protected function doSavePart(PartInterface $part)
+    protected function doSaveChapter(ChapterInterface $chapter)
     {
-        $this->em->persist($part->getLesson());
-        $this->em->persist($part);
+        $this->em->persist($chapter->getLesson());
+        $this->em->persist($chapter);
         $this->em->flush();
     }
 
     /**
-     * Returns the fully qualified part lesson class name
+     * Returns the fully qualified chapter lesson class name
      *
      * @return string
      **/

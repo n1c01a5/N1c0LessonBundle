@@ -6,7 +6,7 @@ namespace N1c0\LessonBundle\Event;
  * An event related to a persisting event that can be
  * cancelled by a listener.
  */
-class PartPersistEvent extends PartEvent
+class ChapterPersistEvent extends ChapterEvent
 {
     /**
      * @var bool

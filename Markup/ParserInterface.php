@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the N1c0LessonBundle package.
+ * This file is chapter of the N1c0LessonBundle package.
  *
  * (c) 
  *

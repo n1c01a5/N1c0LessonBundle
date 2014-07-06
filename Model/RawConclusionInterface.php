@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the N1c0ConclusionBundle package.
+ * This file is chapter of the N1c0ConclusionBundle package.
  *
  * (c) 
  *

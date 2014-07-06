@@ -29,17 +29,17 @@ interface ArgumentManagerInterface
     /**
      * Returns a flat array of arguments with the specified lesson.
      *
-     * @param  PartInterface $part
+     * @param  ChapterInterface $chapter
      * @return array           of ArgumentInterface
      */
-    public function findArgumentsByPart(PartInterface $part);
+    public function findArgumentsByChapter(ChapterInterface $chapter);
 
     /**
      * Returns an empty argument instance
      *
      * @return Argument
      */
-    public function createArgument(PartInterface $part);
+    public function createArgument(ChapterInterface $chapter);
 
     /**
      * Saves a argument

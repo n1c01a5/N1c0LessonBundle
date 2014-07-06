@@ -2,8 +2,8 @@
 
 namespace N1c0\LessonBundle\Acl;
 
-use N1c0\PartBundle\Model\PartInterface;
-use N1c0\PartBundle\Model\SignedPartInterface;
+use N1c0\ChapterBundle\Model\ChapterInterface;
+use N1c0\ChapterBundle\Model\SignedChapterInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 /**
  * Implements ACL checking using the Symfony2 Security component
  */
-class SecurityPartAcl implements PartAclInterface
+class SecurityChapterAcl implements ChapterAclInterface
 {
     /**
      * Used to retrieve ObjectIdentity instances for objects.
@@ -41,14 +41,14 @@ class SecurityPartAcl implements PartAclInterface
     protected $securityContext;
 
     /**
-     * The FQCN of the Part object.
+     * The FQCN of the Chapter object.
      *
      * @var string
      */
-    protected $partClass;
+    protected $chapterClass;
 
     /**
-     * The Class OID for the Part object.
+     * The Class OID for the Chapter object.
      *
      * @var ObjectIdentity
      */
@@ -60,23 +60,23 @@ class SecurityPartAcl implements PartAclInterface
      * @param SecurityContextInterface                 $securityContext
      * @param ObjectIdentityRetrievalStrategyInterface $objectRetrieval
      * @param MutableAclProviderInterface              $aclProvider
-     * @param string                                   $partClass
+     * @param string                                   $chapterClass
      */
     public function __construct(SecurityContextInterface $securityContext,
                                 ObjectIdentityRetrievalStrategyInterface $objectRetrieval,
                                 MutableAclProviderInterface $aclProvider,
-                                $partClass
+                                $chapterClass
     )
     {
         $this->objectRetrieval   = $objectRetrieval;
         $this->aclProvider       = $aclProvider;
         $this->securityContext   = $securityContext;
-        $this->partClass      = $partClass;
-        $this->oid               = new ObjectIdentity('class', $this->partClass);
+        $this->chapterClass      = $chapterClass;
+        $this->oid               = new ObjectIdentity('class', $this->chapterClass);
     }
 
     /**
-     * Checks if the Security token is allowed to create a new Part.
+     * Checks if the Security token is allowed to create a new Chapter.
      *
      * @return boolean
      */
@@ -86,53 +86,53 @@ class SecurityPartAcl implements PartAclInterface
     }
 
     /**
-     * Checks if the Security token is allowed to view the specified Part.
+     * Checks if the Security token is allowed to view the specified Chapter.
      *
-     * @param  PartInterface $part
+     * @param  ChapterInterface $chapter
      * @return boolean
      */
-    public function canView(PartInterface $part)
+    public function canView(ChapterInterface $chapter)
     {
-        return $this->securityContext->isGranted('VIEW', $part);
+        return $this->securityContext->isGranted('VIEW', $chapter);
     }
 
 
     /**
-     * Checks if the Security token is allowed to edit the specified Part.
+     * Checks if the Security token is allowed to edit the specified Chapter.
      *
-     * @param  PartInterface $part
+     * @param  ChapterInterface $chapter
      * @return boolean
      */
-    public function canEdit(PartInterface $part)
+    public function canEdit(ChapterInterface $chapter)
     {
-        return $this->securityContext->isGranted('EDIT', $part);
+        return $this->securityContext->isGranted('EDIT', $chapter);
     }
 
     /**
-     * Checks if the Security token is allowed to delete the specified Part.
+     * Checks if the Security token is allowed to delete the specified Chapter.
      *
-     * @param  PartInterface $part
+     * @param  ChapterInterface $chapter
      * @return boolean
      */
-    public function canDelete(PartInterface $part)
+    public function canDelete(ChapterInterface $chapter)
     {
-        return $this->securityContext->isGranted('DELETE', $part);
+        return $this->securityContext->isGranted('DELETE', $chapter);
     }
 
     /**
-     * Sets the default object Acl entry for the supplied Part.
+     * Sets the default object Acl entry for the supplied Chapter.
      *
-     * @param  PartInterface $part
+     * @param  ChapterInterface $chapter
      * @return void
      */
-    public function setDefaultAcl(PartInterface $part)
+    public function setDefaultAcl(ChapterInterface $chapter)
     {
-        $objectIdentity = $this->objectRetrieval->getObjectIdentity($part);
+        $objectIdentity = $this->objectRetrieval->getObjectIdentity($chapter);
         $acl = $this->aclProvider->createAcl($objectIdentity);
 
-        if ($part instanceof SignedPartInterface &&
-            null !== $part->getAuthor()) {
-            $securityIdentity = UserSecurityIdentity::fromAccount($part->getAuthor());
+        if ($chapter instanceof SignedChapterInterface &&
+            null !== $chapter->getAuthor()) {
+            $securityIdentity = UserSecurityIdentity::fromAccount($chapter->getAuthor());
             $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
         }
 
@@ -140,15 +140,15 @@ class SecurityPartAcl implements PartAclInterface
     }
 
     /**
-     * Installs default Acl entries for the Part class.
+     * Installs default Acl entries for the Chapter class.
      *
-     * This needs to be re-run whenever the Part class changes or is subclassed.
+     * This needs to be re-run whenever the Chapter class changes or is subclassed.
      *
      * @return void
      */
     public function installFallbackAcl()
     {
-        $oid = new ObjectIdentity('class', $this->partClass);
+        $oid = new ObjectIdentity('class', $this->chapterClass);
 
         try {
             $acl = $this->aclProvider->createAcl($oid);
@@ -165,7 +165,7 @@ class SecurityPartAcl implements PartAclInterface
      *
      * Override this method in a subclass to change what permissions are defined.
      * Once this method has been overridden you need to run the
-     * `fos:part:installAces --flush` command
+     * `fos:chapter:installAces --flush` command
      *
      * @param  AclInterface $acl
      * @param  MaskBuilder  $builder
@@ -187,16 +187,16 @@ class SecurityPartAcl implements PartAclInterface
     }
 
     /**
-     * Removes fallback Acl entries for the Part class.
+     * Removes fallback Acl entries for the Chapter class.
      *
-     * This should be run when uninstalling the PartBundle, or when
+     * This should be run when uninstalling the ChapterBundle, or when
      * the Class Acl entry end up corrupted.
      *
      * @return void
      */
     public function uninstallFallbackAcl()
     {
-        $oid = new ObjectIdentity('class', $this->partClass);
+        $oid = new ObjectIdentity('class', $this->chapterClass);
         $this->aclProvider->deleteAcl($oid);
     }
 }

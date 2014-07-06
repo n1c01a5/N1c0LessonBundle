@@ -3,18 +3,18 @@
 namespace N1c0\LessonBundle\EventListener;
 
 use N1c0\LessonBundle\Events;
-use N1c0\LessonBundle\Event\PartEvent;
+use N1c0\LessonBundle\Event\ChapterEvent;
 use N1c0\LessonBundle\Markup\ParserInterface;
-use N1c0\LessonBundle\Model\RawPartInterface;
+use N1c0\LessonBundle\Model\RawChapterInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Parses a part for markup and sets the result
+ * Parses a chapter for markup and sets the result
  * into the rawBody property.
  *
  * @author Wagner Nicolas <contact@wagner-nicolas.com>
  */
-class PartMarkupListener implements EventSubscriberInterface
+class ChapterMarkupListener implements EventSubscriberInterface
 {
     /**
      * @var ParserInterface
@@ -32,25 +32,25 @@ class PartMarkupListener implements EventSubscriberInterface
     }
 
     /**
-     * Parses raw part data and assigns it to the rawBody
+     * Parses raw chapter data and assigns it to the rawBody
      * property.
      *
-     * @param \N1c0\LessonBundle\Event\PartEvent $event
+     * @param \N1c0\LessonBundle\Event\ChapterEvent $event
      */
-    public function markup(PartEvent $event)
+    public function markup(ChapterEvent $event)
     {
-        $part = $event->getPart();
+        $chapter = $event->getChapter();
 
-        if (!$part instanceof RawPartInterface) {
+        if (!$chapter instanceof RawChapterInterface) {
             return;
         }
 
-        $result = $this->parser->parse($part->getBody());
-        $part->setRawBody($result);
+        $result = $this->parser->parse($chapter->getBody());
+        $chapter->setRawBody($result);
     }
 
     public static function getSubscribedEvents()
     {
-        return array(Events::PART_PRE_PERSIST => 'markup');
+        return array(Events::CHAPTER_PRE_PERSIST => 'markup');
     }
 }

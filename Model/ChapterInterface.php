@@ -2,10 +2,10 @@
 
 namespace N1c0\LessonBundle\Model;
 
-Interface PartInterface
+Interface ChapterInterface
 {
     /**
-     * @return mixed unique ID for this part
+     * @return mixed unique ID for this chapter
      */
     public function getId();
 
@@ -18,7 +18,7 @@ Interface PartInterface
      * Set title
      *
      * @param string $title
-     * @return PartInterface
+     * @return ChapterInterface
      */
     public function setTitle($title);
 
@@ -33,7 +33,7 @@ Interface PartInterface
      * Set body
      *
      * @param string $body
-     * @return PartInterface
+     * @return ChapterInterface
      */
     public function setBody($body);
 

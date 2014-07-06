@@ -86,42 +86,42 @@ final class Events
     
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend
-     * persisting the Part.
+     * persisting the Chapter.
      *
-     * This event allows you to modify the data in the Part prior
+     * This event allows you to modify the data in the Chapter prior
      * to persisting occuring. The listener receives a
-     * N1c0\LessonBundle\Event\PartPersistEvent instance.
+     * N1c0\LessonBundle\Event\ChapterPersistEvent instance.
      *
-     * Persisting of the part can be aborted by calling
+     * Persisting of the chapter can be aborted by calling
      * $event->abortPersist()
      *
      * @var string
      */
-    const PART_PRE_PERSIST = 'n1c0_lesson.part.pre_persist';
+    const CHAPTER_PRE_PERSIST = 'n1c0_lesson.chapter.pre_persist';
 
     /**
      * The POST_PERSIST event occurs after the persistence backend
-     * persisted the Part.
+     * persisted the Chapter.
      *
      * This event allows you to notify users or perform other actions
      * that might require the Argument to be persisted before performing
      * those actions. The listener receives a
-     * N1c0\LessonBundle\Event\PartEvent instance.
+     * N1c0\LessonBundle\Event\ChapterEvent instance.
      *
      * @var string
      */
-    const PART_POST_PERSIST = 'n1c0_lesson.part.post_persist';
+    const CHAPTER_POST_PERSIST = 'n1c0_lesson.chapter.post_persist';
 
     /**
      * The CREATE event occurs when the manager is asked to create
-     * a new instance of a Part.
+     * a new instance of a Chapter.
      *
-     * The listener receives a N1c0\LessonBundle\Event\PartEvent
+     * The listener receives a N1c0\LessonBundle\Event\ChapterEvent
      * instance.
      *
      * @var string
      */
-    const PART_CREATE = 'n1c0_lesson.part.create';
+    const CHAPTER_CREATE = 'n1c0_lesson.chapter.create';
 
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend

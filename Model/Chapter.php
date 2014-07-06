@@ -5,12 +5,12 @@ namespace N1c0\LessonBundle\Model;
 use DateTime;
 
 /**
- * Storage agnostic part lesson object
+ * Storage agnostic chapter lesson object
  */
-abstract class Part implements PartInterface
+abstract class Chapter implements ChapterInterface
 {
     /**
-     *Part id 
+     *Chapter id 
      *
      * @var mixed
      */
@@ -174,7 +174,7 @@ abstract class Part implements PartInterface
     }
 
     /**
-     * @return array with the names of the part authors
+     * @return array with the names of the chapter authors
      */
     public function getAuthorsName()
     {
@@ -182,7 +182,7 @@ abstract class Part implements PartInterface
     }
 
     /**
-     * @return array with the name of the part author
+     * @return array with the name of the chapter author
      */
     public function getAuthorName()
     {
@@ -191,6 +191,6 @@ abstract class Part implements PartInterface
 
     public function __toString()
     {
-        return 'Part #'.$this->getId();
+        return 'Chapter #'.$this->getId();
     }
 }

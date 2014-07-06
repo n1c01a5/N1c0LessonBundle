@@ -10,8 +10,8 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @Hateoas\Relation(
  *     name = "self",
  *     href = @Hateoas\Route(
- *         "api_1_get_lesson_part_argument",
- *         parameters = { "id" = "expr(object.getPart().getLesson().getId())", "partId" = "expr(object.getPart().getId())" ,"argumentId" = "expr(object.getId())" },
+ *         "api_1_get_lesson_chapter_argument",
+ *         parameters = { "id" = "expr(object.getChapter().getLesson().getId())", "chapterId" = "expr(object.getChapter().getId())" ,"argumentId" = "expr(object.getId())" },
  *         absolute = true
  *     )
  * )

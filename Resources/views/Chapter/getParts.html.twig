@@ -1,0 +1,11 @@
+<h1 class="title">Chapteries d'une lesson</h1>
+<ul id="chapter-list">
+{% for chapter in chapters %}
+    <li>
+        <a href="{{ path('api_1_get_lesson_chapter', {'id': chapter.lesson.id, 'chapterId': chapter.id}) }}">{{ chapter.title }}</a>
+        {#[<a href="{{ path('api_1_edit_chapters', {'id': chapter.id}) }}">{{ 'chapter.edit.link'|trans({}, 'n1c0LessonBundle') }}</a>]#}
+        {#[<a href="{{ path('api_1_remove_chapters', {'id': chapter.id}) }}">{{ 'chapter.remove.link'|trans({}, 'n1c0LessonBundle') }}</a>]#}
+    </li>
+    <li>{{ 'chapter.list.empty'|trans({}, 'n1c0LessonBundle') }}</li>
+{% endfor %}
+</ul>

@@ -33,9 +33,9 @@ abstract class Argument implements ArgumentInterface
     /**
      * Should be mapped by the end developer.
      *
-     * @var PartInterface
+     * @var ChapterInterface
      */
-    protected $part;
+    protected $chapter;
 
     /**
      * CommitTitle
@@ -105,21 +105,21 @@ abstract class Argument implements ArgumentInterface
     }
 
     /**
-     * @return PartInterface
+     * @return ChapterInterface
      */
-    public function getPart()
+    public function getChapter()
     {
-        return $this->part;
+        return $this->chapter;
     }
 
     /**
-     * @param PartInterface $part
+     * @param ChapterInterface $chapter
      *
      * @return void
      */
-    public function setPart(PartInterface $part)
+    public function setChapter(ChapterInterface $chapter)
     {
-        $this->part = $part;
+        $this->chapter = $chapter;
     }
 
     /**

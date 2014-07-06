@@ -6,13 +6,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class PartType extends AbstractType
+class ChapterType extends AbstractType
 {
-    private $partClass;
+    private $chapterClass;
 
-    public function __construct($partClass)
+    public function __construct($chapterClass)
     {
-        $this->partClass = $partClass;
+        $this->chapterClass = $chapterClass;
     }
 
     /**
@@ -36,7 +36,7 @@ class PartType extends AbstractType
     {
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => $this->partClass,
+            'data_class' => $this->chapterClass,
             'csrf_protection' => false
         ));
     }
@@ -46,6 +46,6 @@ class PartType extends AbstractType
      */
     public function getName()
     {
-        return 'n1c0_lesson_part';
+        return 'n1c0_lesson_chapter';
     }
 }

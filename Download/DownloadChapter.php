@@ -4,33 +4,33 @@ namespace N1c0\LessonBundle\Download;
 
 use Pandoc\Pandoc;
 
-class DownloadPart 
+class DownloadChapter 
 {
-    private $appPart;
+    private $appChapter;
 
-    public function __construct($appPart)
+    public function __construct($appChapter)
     {
-        $this->appPart = $appPart;
+        $this->appChapter = $appChapter;
     }
 
     public function getConvert($id, $format)
     {
         $pandoc = new Pandoc();
 
-        $part = $this->appPart->findPartById($id);
+        $chapter = $this->appChapter->findChapterById($id);
 
-        $raw = '% efez'.$part->getTitle(); 
+        $raw = '% efez'.$chapter->getTitle(); 
         $raw .= "\r\n";
         $raw .= '%'; 
 
-        foreach($part->getAuthors() as $author) {
+        foreach($chapter->getAuthors() as $author) {
             $raw .= $author.' ;';
         }
 
         $raw .= "\r\n";
-        $raw .= '%'.$part->getCreatedAt()->format("m M Y");      
+        $raw .= '%'.$chapter->getCreatedAt()->format("m M Y");      
         $raw .= "\r\n";
-        $raw .= $part->getBody();
+        $raw .= $chapter->getBody();
 
 
         $options = array(

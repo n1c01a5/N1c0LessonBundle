@@ -4,7 +4,7 @@ namespace N1c0\LessonBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
 use N1c0\LessonBundle\Model\ArgumentManager as BaseArgumentManager;
-use N1c0\LessonBundle\Model\PartInterface;
+use N1c0\LessonBundle\Model\ChapterInterface;
 use N1c0\LessonBundle\Model\ArgumentInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -48,18 +48,18 @@ class ArgumentManager extends BaseArgumentManager
     }
 
     /**
-     * Returns a flat array of arguments of a specific part of the lesson.
+     * Returns a flat array of arguments of a specific chapter of the lesson.
      *
-     * @param  PartInterface $part
+     * @param  ChapterInterface $chapter
      * @return array           
      */
-    public function findArgumentsByPart(PartInterface $part)
+    public function findArgumentsByChapter(ChapterInterface $chapter)
     {
         $qb = $this->repository
                 ->createQueryBuilder('a')
-                ->join('a.part', 'p')
-                ->where('p.id = :part')
-                ->setParameter('part', $part->getId());
+                ->join('a.chapter', 'p')
+                ->where('p.id = :chapter')
+                ->setParameter('chapter', $chapter->getId());
 
         $arguments = $qb
             ->getQuery()
@@ -74,7 +74,7 @@ class ArgumentManager extends BaseArgumentManager
      * @param  array           $criteria
      * @return ArgumentInterface
      */
-    public function findPartById($id)
+    public function findChapterById($id)
     {
         return $this->repository->find($id);
     }
@@ -96,7 +96,7 @@ class ArgumentManager extends BaseArgumentManager
      */
     protected function doSaveArgument(ArgumentInterface $argument)
     {
-        $this->em->persist($argument->getPart());
+        $this->em->persist($argument->getChapter());
         $this->em->persist($argument);
         $this->em->flush();
     }

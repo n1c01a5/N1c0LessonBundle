@@ -3,16 +3,16 @@
 namespace N1c0\LessonBundle\EventListener;
 
 use N1c0\LessonBundle\Events;
-use N1c0\LessonBundle\Event\PartEvent;
-use N1c0\LessonBundle\Model\SignedPartInterface;
+use N1c0\LessonBundle\Event\ChapterEvent;
+use N1c0\LessonBundle\Model\SignedChapterInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
- * Blames a part using Symfony2 security component
+ * Blames a chapter using Symfony2 security component
  */
-class PartBlamerListener implements EventSubscriberInterface
+class ChapterBlamerListener implements EventSubscriberInterface
 {
     /**
      * @var SecurityContext
@@ -37,26 +37,26 @@ class PartBlamerListener implements EventSubscriberInterface
     }
 
     /**
-     * Assigns the currently logged in user to a Part.
+     * Assigns the currently logged in user to a Chapter.
      *
-     * @param  \N1c0\LessonBundle\Event\PartEvent $event
+     * @param  \N1c0\LessonBundle\Event\ChapterEvent $event
      * @return void
      */
-    public function blame(PartEvent $event)
+    public function blame(ChapterEvent $event)
     {
-        $part = $event->getPart();
+        $chapter = $event->getChapter();
 
         if (null === $this->securityContext) {
             if ($this->logger) {
-                $this->logger->debug("Part Blamer did not receive the security.context service.");
+                $this->logger->debug("Chapter Blamer did not receive the security.context service.");
             }
 
             return;
         }
 
-        if (!$part instanceof SignedPartInterface) {
+        if (!$chapter instanceof SignedChapterInterface) {
             if ($this->logger) {
-                $this->logger->debug("Part does not implement SignedPartInterface, skipping");
+                $this->logger->debug("Chapter does not implement SignedChapterInterface, skipping");
             }
 
             return;
@@ -72,18 +72,18 @@ class PartBlamerListener implements EventSubscriberInterface
 
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->securityContext->getToken()->getUser();
-            $part->setAuthor($user);
-            if (!$part->getAuthors()->contains($user)) {
-                $part->addAuthor($user);
+            $chapter->setAuthor($user);
+            if (!$chapter->getAuthors()->contains($user)) {
+                $chapter->addAuthor($user);
             }
-            if (!$part->getLesson()->getAuthors()->contains($user)) {
-                $part->getLesson()->addAuthor($user);
+            if (!$chapter->getLesson()->getAuthors()->contains($user)) {
+                $chapter->getLesson()->addAuthor($user);
             }
         }
     }
 
     public static function getSubscribedEvents()
     {
-        return array(Events::PART_PRE_PERSIST => 'blame');
+        return array(Events::CHAPTER_PRE_PERSIST => 'blame');
     }
 }

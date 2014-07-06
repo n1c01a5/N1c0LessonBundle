@@ -18,46 +18,46 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use N1c0\LessonBundle\Exception\InvalidFormException;
 use N1c0\LessonBundle\Form\LessonType;
 use N1c0\LessonBundle\Model\LessonInterface;
-use N1c0\LessonBundle\Form\PartType;
-use N1c0\LessonBundle\Model\PartInterface;
+use N1c0\LessonBundle\Form\ChapterType;
+use N1c0\LessonBundle\Model\ChapterInterface;
 
-class PartController extends FOSRestController
+class ChapterController extends FOSRestController
 {
     /**
-     * Get single Part.
+     * Get single Chapter.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a Part for a given id",
-     *   output = "N1c0\LessonBundle\Entity\Part",
+     *   description = "Gets a Chapter for a given id",
+     *   output = "N1c0\LessonBundle\Entity\Chapter",
      *   statusCodes = {
      *     200 = "Returned when successful",
-     *     404 = "Returned when the part or the lesson is not found"
+     *     404 = "Returned when the chapter or the lesson is not found"
      *   }
      * )
      *
      *
-     * @Annotations\View(templateVar="part")
+     * @Annotations\View(templateVar="chapter")
      *
      * @param int                   $id                   the lesson id
-     * @param int                   $partId           the part id
+     * @param int                   $chapterId           the chapter id
      *
      * @return array
      *
-     * @throws NotFoundHttpException when part not exist
+     * @throws NotFoundHttpException when chapter not exist
      */
-    public function getPartAction($id, $partId)
+    public function getChapterAction($id, $chapterId)
     {
         $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
         if (!$lesson) {
             throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
         }
         
-        return $this->getOr404($partId);
+        return $this->getOr404($chapterId);
     }
 
     /**
-     * Get the parts of a lesson.
+     * Get the chapters of a lesson.
      *
      * @ApiDoc(
      *   resource = true,
@@ -66,29 +66,29 @@ class PartController extends FOSRestController
      *   }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing parts.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many parts to return.")
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing chapters.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many chapters to return.")
      *
      * @Annotations\View(
-     *  templateVar="parts"
+     *  templateVar="chapters"
      * )
      *
      * @param int                   $id           the lesson id
      *
      * @return array
      */
-    public function getPartsAction($id)
+    public function getChaptersAction($id)
     {
         $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
         if (!$lesson) {
             throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
         }
 
-        return $this->container->get('n1c0_lesson.manager.part')->findPartsByLesson($lesson);
+        return $this->container->get('n1c0_lesson.manager.chapter')->findChaptersByLesson($lesson);
     }
 
     /**
-     * Presents the form to use to create a new part.
+     * Presents the form to use to create a new chapter.
      *
      * @ApiDoc(
      *   resource = true,
@@ -105,17 +105,17 @@ class PartController extends FOSRestController
      *
      * @return FormTypeInterface
      */
-    public function newPartAction($id)
+    public function newChapterAction($id)
     {
         $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
         if (!$lesson) {
             throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
         }
 
-        $part = $this->container->get('n1c0_lesson.manager.part')->createPart($lesson);
+        $chapter = $this->container->get('n1c0_lesson.manager.chapter')->createChapter($lesson);
 
-        $form = $this->container->get('n1c0_lesson.form_factory.part')->createForm();
-        $form->setData($part);
+        $form = $this->container->get('n1c0_lesson.form_factory.chapter')->createForm();
+        $form->setData($chapter);
 
         return array(
             'form' => $form, 
@@ -124,7 +124,7 @@ class PartController extends FOSRestController
     }
 
     /**
-     * Edits an part.
+     * Edits an chapter.
      *
      * @ApiDoc(
      *   resource = true,
@@ -134,39 +134,39 @@ class PartController extends FOSRestController
      * )
      * 
      * @Annotations\View(
-     *  template = "N1c0LessonBundle:Part:editPart.html.twig",
+     *  template = "N1c0LessonBundle:Chapter:editChapter.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param int     $id      the lesson id
-     * @param int     $partId           the part id
+     * @param int     $chapterId           the chapter id
      *
      * @return FormTypeInterface
      */
-    public function editPartAction($id, $partId)
+    public function editChapterAction($id, $chapterId)
     {
         $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
         if (!$lesson) {
             throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
         }
-        $part = $this->getOr404($partId);
-        $form = $this->container->get('n1c0_lesson.form_factory.part')->createForm();
-        $form->setData($part);
+        $chapter = $this->getOr404($chapterId);
+        $form = $this->container->get('n1c0_lesson.form_factory.chapter')->createForm();
+        $form->setData($chapter);
     
         return array(
             'form' => $form,
             'id'=>$id,
-            'partId' => $part->getId()
+            'chapterId' => $chapter->getId()
         );
     }
 
     /**
-     * Creates a new Part for the Lesson from the submitted data.
+     * Creates a new Chapter for the Lesson from the submitted data.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Creates a new part for the lesson from the submitted data.",
-     *   input = "N1c0\LessonBundle\Form\PartType",
+     *   description = "Creates a new chapter for the lesson from the submitted data.",
+     *   input = "N1c0\LessonBundle\Form\ChapterType",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     400 = "Returned when the form has errors"
@@ -175,7 +175,7 @@ class PartController extends FOSRestController
      *
      *
      * @Annotations\View(
-     *  template = "N1c0LessonBundle:Part:newPart.html.twig",
+     *  template = "N1c0LessonBundle:Chapter:newChapter.html.twig",
      *  statusCode = Codes::HTTP_BAD_REQUEST,
      *  templateVar = "form"
      * )
@@ -185,7 +185,7 @@ class PartController extends FOSRestController
      *
      * @return FormTypeInterface|View
      */
-    public function postPartAction(Request $request, $id)
+    public function postChapterAction(Request $request, $id)
     {
         try {
             $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
@@ -193,21 +193,21 @@ class PartController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
             }
 
-            $partManager = $this->container->get('n1c0_lesson.manager.part');
-            $part = $partManager->createPart($lesson);
+            $chapterManager = $this->container->get('n1c0_lesson.manager.chapter');
+            $chapter = $chapterManager->createChapter($lesson);
 
-            $form = $this->container->get('n1c0_lesson.form_factory.part')->createForm();
-            $form->setData($part);
+            $form = $this->container->get('n1c0_lesson.form_factory.chapter')->createForm();
+            $form->setData($chapter);
 
             if ('POST' === $request->getMethod()) {
                 $form->bind($request);
 
                 if ($form->isValid()) {
-                    $partManager->savePart($part);
+                    $chapterManager->saveChapter($chapter);
                 
                     $routeOptions = array(
                         'id' => $id,
-                        'partId' => $form->getData()->getId(),
+                        'chapterId' => $form->getData()->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -217,8 +217,8 @@ class PartController extends FOSRestController
                     $isAjax = $request->isXmlHttpRequest();
 
                     if($isAjax == false) { 
-                        // Add a method onCreatePartSuccess(FormInterface $form)
-                        return $this->routeRedirectView('api_1_get_lesson_part', $routeOptions, Codes::HTTP_CREATED);
+                        // Add a method onCreateChapterSuccess(FormInterface $form)
+                        return $this->routeRedirectView('api_1_get_lesson_chapter', $routeOptions, Codes::HTTP_CREATED);
                     }
                 } else {
                     $response['success'] = false;
@@ -231,32 +231,32 @@ class PartController extends FOSRestController
     }
 
     /**
-     * Update existing part from the submitted data or create a new part at a specific location.
+     * Update existing chapter from the submitted data or create a new chapter at a specific location.
      *
      * @ApiDoc(
      *   resource = true,
-     *   input = "N1c0\DemoBundle\Form\PartType",
+     *   input = "N1c0\DemoBundle\Form\ChapterType",
      *   statusCodes = {
-     *     201 = "Returned when the Part is created",
+     *     201 = "Returned when the Chapter is created",
      *     204 = "Returned when successful",
      *     400 = "Returned when the form has errors"
      *   }
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0LessonBundle:Part:editPart.html.twig",
+     *  template = "N1c0LessonBundle:Chapter:editChapter.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the lesson 
-     * @param int     $partId      the part id
+     * @param int     $chapterId      the chapter id
      *
      * @return FormTypeInterface|View
      *
-     * @throws NotFoundHttpException when part not exist
+     * @throws NotFoundHttpException when chapter not exist
      */
-    public function putPartAction(Request $request, $id, $partId)
+    public function putChapterAction(Request $request, $id, $chapterId)
     {
         try {
             $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
@@ -264,15 +264,15 @@ class PartController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
             }
 
-            $part = $this->getOr404($partId);
+            $chapter = $this->getOr404($chapterId);
 
-            $form = $this->container->get('n1c0_lesson.form_factory.part')->createForm();
-            $form->setData($part);
+            $form = $this->container->get('n1c0_lesson.form_factory.chapter')->createForm();
+            $form->setData($chapter);
             $form->bind($request);
 
             if ($form->isValid()) {
-                $partManager = $this->container->get('n1c0_lesson.manager.part');
-                if ($partManager->savePart($part) !== false) {
+                $chapterManager = $this->container->get('n1c0_lesson.manager.chapter');
+                if ($chapterManager->saveChapter($chapter) !== false) {
                     $routeOptions = array(
                         'id' => $lesson->getId(),                  
                         '_format' => $request->get('_format')
@@ -285,16 +285,16 @@ class PartController extends FOSRestController
             return $exception->getForm();
         }
 
-        // Add a method onCreatePartError(FormInterface $form)
-        return new Response(sprintf("Error of the part id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
+        // Add a method onCreateChapterError(FormInterface $form)
+        return new Response(sprintf("Error of the chapter id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
     }
 
     /**
-     * Update existing part for a lesson from the submitted data or create a new part at a specific location.
+     * Update existing chapter for a lesson from the submitted data or create a new chapter at a specific location.
      *
      * @ApiDoc(
      *   resource = true,
-     *   input = "N1c0\DemoBundle\Form\PartType",
+     *   input = "N1c0\DemoBundle\Form\ChapterType",
      *   statusCodes = {
      *     204 = "Returned when successful",
      *     400 = "Returned when the form has errors"
@@ -302,19 +302,19 @@ class PartController extends FOSRestController
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0LessonBundle:Part:editLessonPart.html.twig",
+     *  template = "N1c0LessonBundle:Chapter:editLessonChapter.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the lesson 
-     * @param int     $partId      the part id
+     * @param int     $chapterId      the chapter id
 
      * @return FormTypeInterface|View
      *
-     * @throws NotFoundHttpException when part not exist
+     * @throws NotFoundHttpException when chapter not exist
      */
-    public function patchPartAction(Request $request, $id, $partId)
+    public function patchChapterAction(Request $request, $id, $chapterId)
     {
         try {
             $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
@@ -322,15 +322,15 @@ class PartController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
             }
 
-            $part = $this->getOr404($partId);
+            $chapter = $this->getOr404($chapterId);
 
-            $form = $this->container->get('n1c0_lesson.form_factory.part')->createForm();
-            $form->setData($part);
+            $form = $this->container->get('n1c0_lesson.form_factory.chapter')->createForm();
+            $form->setData($chapter);
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $partManager = $this->container->get('n1c0_lesson.manager.part');
-                if ($partManager->savePart($part) !== false) {
+                $chapterManager = $this->container->get('n1c0_lesson.manager.chapter');
+                if ($chapterManager->saveChapter($chapter) !== false) {
                     $routeOptions = array(
                         'id' => $lesson->getId(),                  
                         '_format' => $request->get('_format')
@@ -345,11 +345,11 @@ class PartController extends FOSRestController
     }
 
     /**
-     * Get thread for an part.
+     * Get thread for an chapter.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a part thread",
+     *   description = "Gets a chapter thread",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
@@ -358,61 +358,61 @@ class PartController extends FOSRestController
      * @Annotations\View(templateVar="thread")
      *
      * @param int     $id               the lesson id
-     * @param int     $partId       the part id
+     * @param int     $chapterId       the chapter id
      *
      * @return array
      */
-    public function getPartThreadAction($id, $partId)
+    public function getChapterThreadAction($id, $chapterId)
     {
-        return $this->container->get('n1c0_lesson.comment.lesson_comment.default')->getThread($partId);
+        return $this->container->get('n1c0_lesson.comment.lesson_comment.default')->getThread($chapterId);
     }
 
     /**
-     * Fetch a Part or throw an 404 Exception.
+     * Fetch a Chapter or throw an 404 Exception.
      *
      * @param mixed $id
      *
-     * @return PartInterface
+     * @return ChapterInterface
      *
      * @throws NotFoundHttpException
      */
     protected function getOr404($id)
     {
-        if (!($part = $this->container->get('n1c0_lesson.manager.part')->findPartById($id))) {
+        if (!($chapter = $this->container->get('n1c0_lesson.manager.chapter')->findChapterById($id))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        return $part;
+        return $chapter;
     }
 
     /**
-     * Get download for the part of the lesson.
+     * Get download for the chapter of the lesson.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a download part",
+     *   description = "Gets a download chapter",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
      * )
      *
-     * @Annotations\View(templateVar="part")
+     * @Annotations\View(templateVar="chapter")
      *
      * @param int     $id              the lesson uuid
-     * @param int     $partId      the part uuid
+     * @param int     $chapterId      the chapter uuid
      *
      * @return array
      * @throws NotFoundHttpException when lesson not exist
-     * @throws NotFoundHttpException when part not exist
+     * @throws NotFoundHttpException when chapter not exist
      */
-    public function getPartDownloadAction($id, $partId)
+    public function getChapterDownloadAction($id, $chapterId)
     {
         if (!($lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id))) {
             throw new NotFoundHttpException(sprintf('The resource lesson \'%s\' was not found.',$id));
         }
 
-        if (!($part = $this->container->get('n1c0_lesson.manager.part')->findPartById($partId))) {
-            throw new NotFoundHttpException(sprintf('The resource part \'%s\' was not found.', $partId));
+        if (!($chapter = $this->container->get('n1c0_lesson.manager.chapter')->findChapterById($chapterId))) {
+            throw new NotFoundHttpException(sprintf('The resource chapter \'%s\' was not found.', $chapterId));
         }
 
         $formats = array(
@@ -446,43 +446,43 @@ class PartController extends FOSRestController
 
         return array(
             'formats'    => $formats, 
-            'part'   => $part
+            'chapter'   => $chapter
         );
     }
 
     /**
-     * Convert the part in pdf format.
+     * Convert the chapter in pdf format.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Convert the part",
+     *   description = "Convert the chapter",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
      * )
      *
      * @param int     $id              the lesson uuid
-     * @param int     $partId      the part uuid
+     * @param int     $chapterId      the chapter uuid
      * @param string  $format          the format to convert lesson 
      *
      * @return Response
      * @throws NotFoundHttpException when lesson not exist
-     * @throws NotFoundHttpException when part not exist
+     * @throws NotFoundHttpException when chapter not exist
      */
-    public function getPartConvertAction($id, $partId, $format)
+    public function getChapterConvertAction($id, $chapterId, $format)
     {
         if (!($lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id))) {
             throw new NotFoundHttpException(sprintf('The resource lesson \'%s\' was not found.',$id));
         }
 
-        if (!($part = $this->container->get('n1c0_lesson.manager.part')->findPartById($partId))) {
-            throw new NotFoundHttpException(sprintf('The resource part \'%s\' was not found.',$partId));
+        if (!($chapter = $this->container->get('n1c0_lesson.manager.chapter')->findChapterById($chapterId))) {
+            throw new NotFoundHttpException(sprintf('The resource chapter \'%s\' was not found.',$chapterId));
         }
 
-        $partConvert = $this->container->get('n1c0_lesson.part.download')->getConvert($partId, $format);
+        $chapterConvert = $this->container->get('n1c0_lesson.chapter.download')->getConvert($chapterId, $format);
 
         $response = new Response();
-        $response->setContent($partConvert);
+        $response->setContent($chapterConvert);
         $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
@@ -531,7 +531,7 @@ class PartController extends FOSRestController
                 $ext = $format;       
         }
         
-        $response->headers->set('Content-disposition', 'filename='.$part->getTitle().'.'.$ext);
+        $response->headers->set('Content-disposition', 'filename='.$chapter->getTitle().'.'.$ext);
          
         return $response;
     }

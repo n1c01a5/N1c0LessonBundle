@@ -5,12 +5,12 @@ namespace N1c0\LessonBundle\FormFactory;
 use Symfony\Component\Form\FormInterface;
 
 /**
- * Part form creator
+ * Chapter form creator
  */
-interface PartFormFactoryInterface
+interface ChapterFormFactoryInterface
 {
     /**
-     * Creates a part form
+     * Creates a chapter form
      *
      * @return FormInterface
      */

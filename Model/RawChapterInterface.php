@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the N1c0PartBundle package.
+ * This file is chapter of the N1c0ChapterBundle package.
  *
  * (c) 
  *
@@ -17,7 +17,7 @@ namespace N1c0\LessonBundle\Model;
  *
  * @author Wagner Nicolas <contact@wagner-nicolas.com>
  */
-interface RawPartInterface extends PartInterface
+interface RawChapterInterface extends ChapterInterface
 {
     /**
      * Gets the raw processed html.

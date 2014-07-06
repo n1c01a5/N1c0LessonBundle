@@ -56,12 +56,12 @@ abstract class ArgumentManager implements ArgumentManagerInterface
      *
      * @return Argument
      */
-    public function createArgument(PartInterface $part)
+    public function createArgument(ChapterInterface $chapter)
     {
         $class = $this->getClass();
         $argument = new $class;
 
-        $argument->setPart($part);
+        $argument->setChapter($chapter);
 
         $event = new ArgumentEvent($argument);
         $this->dispatcher->dispatch(Events::ARGUMENT_CREATE, $event);
@@ -75,12 +75,12 @@ abstract class ArgumentManager implements ArgumentManagerInterface
      * perform the saving of the argument to the backend.
      *
      * @param  ArgumentInterface         $argument
-     * @throws InvalidArgumentException when the argument does not have a part of the lesson.
+     * @throws InvalidArgumentException when the argument does not have a chapter of the lesson.
      */
     public function saveArgument(ArgumentInterface $argument)
     {
-        if (null === $argument->getPart()) {
-            throw new InvalidArgumentException('The argument must have a part');
+        if (null === $argument->getChapter()) {
+            throw new InvalidArgumentException('The argument must have a chapter');
         }
 
         $event = new ArgumentPersistEvent($argument);

@@ -40,14 +40,14 @@ class ArgumentController extends FOSRestController
      * @Annotations\View(templateVar="argument")
      *
      * @param int                   $id                   the lesson id
-     * @param int                   $partId               the part id
+     * @param int                   $chapterId               the chapter id
      * @param int                   $argumentId           the argument id
      *
      * @return array
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function getArgumentAction($id, $partId, $argumentId)
+    public function getArgumentAction($id, $chapterId, $argumentId)
     {
         $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
         if (!$lesson) {
@@ -75,23 +75,23 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param int                   $id           the lesson id
-     * @param int                   $partId       the part id
+     * @param int                   $chapterId       the chapter id
      *
      * @return array
      */
-    public function getArgumentsAction($id, $partId)
+    public function getArgumentsAction($id, $chapterId)
     {
         $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
         if (!$lesson) {
             throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
         }
 
-        $part = $this->container->get('n1c0_lesson.manager.part')->findPartById($partId);
-        if (!$part) {
-            throw new NotFoundHttpException(sprintf('Part of the Lesson with identifier of "%s" does not exist', $partId));
+        $chapter = $this->container->get('n1c0_lesson.manager.chapter')->findChapterById($chapterId);
+        if (!$chapter) {
+            throw new NotFoundHttpException(sprintf('Chapter of the Lesson with identifier of "%s" does not exist', $chapterId));
         }
 
-        return $this->container->get('n1c0_lesson.manager.argument')->findArgumentsByPart($part);
+        return $this->container->get('n1c0_lesson.manager.argument')->findArgumentsByChapter($chapter);
     }
 
     /**
@@ -109,23 +109,23 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param int                   $id           the lesson id
-     * @param int                   $partId       the part id
+     * @param int                   $chapterId       the chapter id
      *
      * @return FormTypeInterface
      */
-    public function newArgumentAction($id, $partId)
+    public function newArgumentAction($id, $chapterId)
     {
         $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
         if (!$lesson) {
             throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
         }
 
-        $part = $this->container->get('n1c0_lesson.manager.part')->findPartById($partId);
-        if (!$part) {
-            throw new NotFoundHttpException(sprintf('Part of the Lesson with identifier of "%s" does not exist', $partId));
+        $chapter = $this->container->get('n1c0_lesson.manager.chapter')->findChapterById($chapterId);
+        if (!$chapter) {
+            throw new NotFoundHttpException(sprintf('Chapter of the Lesson with identifier of "%s" does not exist', $chapterId));
         }
 
-        $argument = $this->container->get('n1c0_lesson.manager.argument')->createArgument($part);
+        $argument = $this->container->get('n1c0_lesson.manager.argument')->createArgument($chapter);
 
         $form = $this->container->get('n1c0_lesson.form_factory.argument')->createForm();
         $form->setData($argument);
@@ -152,21 +152,21 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param int     $id                   the lesson id
-     * @param int     $partId               the partId id
+     * @param int     $chapterId               the chapterId id
      * @param int     $argumentId           the argument id
      *
      * @return FormTypeInterface
      */
-    public function editArgumentAction($id, $partId, $argumentId)
+    public function editArgumentAction($id, $chapterId, $argumentId)
     {
         $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
         if (!$lesson) {
             throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
         }
 
-        $part = $this->container->get('n1c0_lesson.manager.part')->findPartById($partId);
-        if (!$part) {
-            throw new NotFoundHttpException(sprintf('Part of the Lesson with identifier of "%s" does not exist', $partId));
+        $chapter = $this->container->get('n1c0_lesson.manager.chapter')->findChapterById($chapterId);
+        if (!$chapter) {
+            throw new NotFoundHttpException(sprintf('Chapter of the Lesson with identifier of "%s" does not exist', $chapterId));
         }
 
         $argument = $this->getOr404($argumentId);
@@ -176,7 +176,7 @@ class ArgumentController extends FOSRestController
         return array(
             'form'       => $form,
             'id'         => $id,
-            'partId'     => $partId,
+            'chapterId'     => $chapterId,
             'argumentId' => $argument->getId()
         );
     }
@@ -203,11 +203,11 @@ class ArgumentController extends FOSRestController
      *
      * @param Request $request      the request object
      * @param string  $id           The id of the lesson 
-     * @param string  $partId       The partId of the lesson 
+     * @param string  $chapterId       The chapterId of the lesson 
      *
      * @return FormTypeInterface|View
      */
-    public function postArgumentAction(Request $request, $id, $partId)
+    public function postArgumentAction(Request $request, $id, $chapterId)
     {
         try {
             $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
@@ -215,13 +215,13 @@ class ArgumentController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
             }
 
-            $part = $this->container->get('n1c0_lesson.manager.part')->findPartById($partId);
-            if (!$part) {
-                throw new NotFoundHttpException(sprintf('Part of the Lesson with identifier of "%s" does not exist', $partId));
+            $chapter = $this->container->get('n1c0_lesson.manager.chapter')->findChapterById($chapterId);
+            if (!$chapter) {
+                throw new NotFoundHttpException(sprintf('Chapter of the Lesson with identifier of "%s" does not exist', $chapterId));
             }
 
             $argumentManager = $this->container->get('n1c0_lesson.manager.argument');
-            $argument = $argumentManager->createArgument($part);
+            $argument = $argumentManager->createArgument($chapter);
 
             $form = $this->container->get('n1c0_lesson.form_factory.argument')->createForm();
             $form->setData($argument);
@@ -234,7 +234,7 @@ class ArgumentController extends FOSRestController
                 
                     $routeOptions = array(
                         'id'          => $id,
-                        'partId'      => $partId,
+                        'chapterId'      => $chapterId,
                         'argumentId'  => $form->getData()->getId(),
                         '_format'     => $request->get('_format')
                     );
@@ -246,7 +246,7 @@ class ArgumentController extends FOSRestController
 
                     if($isAjax == false) { 
                         // Add a method onCreateArgumentSuccess(FormInterface $form)
-                        return $this->routeRedirectView('api_1_get_lesson_part_argument', $routeOptions, Codes::HTTP_CREATED);
+                        return $this->routeRedirectView('api_1_get_lesson_chapter_argument', $routeOptions, Codes::HTTP_CREATED);
                     }
                 } else {
                     $response['success'] = false;
@@ -278,14 +278,14 @@ class ArgumentController extends FOSRestController
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the lesson 
-     * @param string  $partId          the id of the part 
+     * @param string  $chapterId          the id of the chapter 
      * @param int     $argumentId      the argument id
      *
      * @return FormTypeInterface|View
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function putArgumentAction(Request $request, $id, $partId, $argumentId)
+    public function putArgumentAction(Request $request, $id, $chapterId, $argumentId)
     {
         try {
             $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
@@ -293,9 +293,9 @@ class ArgumentController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
             }
     
-            $part = $this->container->get('n1c0_lesson.manager.part')->findPartById($partId);
-            if (!$part) {
-                throw new NotFoundHttpException(sprintf('Part of the Lesson with identifier of "%s" does not exist', $partId));
+            $chapter = $this->container->get('n1c0_lesson.manager.chapter')->findChapterById($chapterId);
+            if (!$chapter) {
+                throw new NotFoundHttpException(sprintf('Chapter of the Lesson with identifier of "%s" does not exist', $chapterId));
             }
 
             $argument = $this->getOr404($argumentId);
@@ -309,11 +309,11 @@ class ArgumentController extends FOSRestController
                 if ($argumentManager->saveArgument($argument) !== false) {
                     $routeOptions = array(
                         'id'      => $lesson->getId(),                  
-                        'partId'  => $part->getId(),                  
+                        'chapterId'  => $chapter->getId(),                  
                         '_format' => $request->get('_format')
                     );
 
-                    return $this->routeRedirectView('api_1_get_lesson_part', $routeOptions, Codes::HTTP_OK);
+                    return $this->routeRedirectView('api_1_get_lesson_chapter', $routeOptions, Codes::HTTP_OK);
                 }
             }
         } catch (InvalidFormException $exception) {
@@ -343,14 +343,14 @@ class ArgumentController extends FOSRestController
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the lesson 
-     * @param string  $partId          the id of the part of the lesson 
+     * @param string  $chapterId          the id of the chapter of the lesson 
      * @param int     $argumentId      the argument id
 
      * @return FormTypeInterface|View
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function patchArgumentAction(Request $request, $id, $partId, $argumentId)
+    public function patchArgumentAction(Request $request, $id, $chapterId, $argumentId)
     {
         try {
             $lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id);
@@ -358,9 +358,9 @@ class ArgumentController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
             }
 
-            $part = $this->container->get('n1c0_lesson.manager.part')->findPartById($partId);
-            if (!$part) {
-                throw new NotFoundHttpException(sprintf('Part of the Lesson with identifier of "%s" does not exist', $partId));
+            $chapter = $this->container->get('n1c0_lesson.manager.chapter')->findChapterById($chapterId);
+            if (!$chapter) {
+                throw new NotFoundHttpException(sprintf('Chapter of the Lesson with identifier of "%s" does not exist', $chapterId));
             }
 
             $argument = $this->getOr404($argumentId);
@@ -374,11 +374,11 @@ class ArgumentController extends FOSRestController
                 if ($argumentManager->saveArgument($argument) !== false) {
                     $routeOptions = array(
                         'id'      => $lesson->getId(),                  
-                        'partId'  => $part->getId(),                  
+                        'chapterId'  => $chapter->getId(),                  
                         '_format' => $request->get('_format')
                     );
 
-                    return $this->routeRedirectView('api_1_get_lesson_part', $routeOptions, Codes::HTTP_CREATED);
+                    return $this->routeRedirectView('api_1_get_lesson_chapter', $routeOptions, Codes::HTTP_CREATED);
                 }
             }
         } catch (InvalidFormException $exception) {
@@ -401,12 +401,12 @@ class ArgumentController extends FOSRestController
      *
      * @param int     $id               the lesson id
      * @param int     $id               the lesson id
-     * @param int     $partId           the part id of the lesson
+     * @param int     $chapterId           the chapter id of the lesson
      * @param int     $argumentId       the argument id
      *
      * @return array
      */
-    public function getArgumentThreadAction($id, $partId, $argumentId)
+    public function getArgumentThreadAction($id, $chapterId, $argumentId)
     {
         return $this->container->get('n1c0_lesson.comment.lesson_comment.default')->getThread($argumentId);
     }
@@ -443,22 +443,22 @@ class ArgumentController extends FOSRestController
      * @Annotations\View(templateVar="argument")
      *
      * @param int     $id              the lesson uuid
-     * @param int     $partId          the part uuid of the lesson
+     * @param int     $chapterId          the chapter uuid of the lesson
      * @param int     $argumentId      the argument uuid
      *
      * @return array
      * @throws NotFoundHttpException when lesson not exist
      * @throws NotFoundHttpException when argument not exist
      */
-    public function getArgumentDownloadAction($id, $partId,  $argumentId)
+    public function getArgumentDownloadAction($id, $chapterId,  $argumentId)
     {
         if (!($lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id))) {
             throw new NotFoundHttpException(sprintf('The resource lesson \'%s\' was not found.',$id));
         }
 
-        $part = $this->container->get('n1c0_lesson.manager.part')->findPartById($partId);
-        if (!$part) {
-           throw new NotFoundHttpException(sprintf('Part of the Lesson with identifier of "%s" does not exist', $partId));
+        $chapter = $this->container->get('n1c0_lesson.manager.chapter')->findChapterById($chapterId);
+        if (!$chapter) {
+           throw new NotFoundHttpException(sprintf('Chapter of the Lesson with identifier of "%s" does not exist', $chapterId));
         }
 
         if (!($argument = $this->container->get('n1c0_lesson.manager.argument')->findArgumentById($argumentId))) {
@@ -512,7 +512,7 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param int     $id              the lesson uuid
-     * @param int     $partId          the part uuid of the lesson     
+     * @param int     $chapterId          the chapter uuid of the lesson     
      * @param int     $argumentId      the argument uuid
      * @param string  $format          the format to convert lesson 
      *
@@ -520,15 +520,15 @@ class ArgumentController extends FOSRestController
      * @throws NotFoundHttpException when lesson not exist
      * @throws NotFoundHttpException when argument not exist
      */
-    public function getArgumentConvertAction($id, $partId, $argumentId, $format)
+    public function getArgumentConvertAction($id, $chapterId, $argumentId, $format)
     {
         if (!($lesson = $this->container->get('n1c0_lesson.manager.lesson')->findLessonById($id))) {
             throw new NotFoundHttpException(sprintf('The resource lesson \'%s\' was not found.',$id));
         }
 
-         $part = $this->container->get('n1c0_lesson.manager.part')->findPartById($partId);
-        if (!$part) {
-           throw new NotFoundHttpException(sprintf('Part of the Lesson with identifier of "%s" does not exist', $partId));
+         $chapter = $this->container->get('n1c0_lesson.manager.chapter')->findChapterById($chapterId);
+        if (!$chapter) {
+           throw new NotFoundHttpException(sprintf('Chapter of the Lesson with identifier of "%s" does not exist', $chapterId));
         }
 
         if (!($argument = $this->container->get('n1c0_lesson.manager.argument')->findArgumentById($argumentId))) {
