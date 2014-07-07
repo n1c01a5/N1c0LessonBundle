@@ -4,22 +4,10 @@ n1c0_lesson_lesson:
     resource: N1c0\LessonBundle\Controller\LessonController
     name_prefix:  api_1_ # naming collision
 
-n1c0_lesson_introduction:
-    type: rest
-    parent: n1c0_lesson_lesson
-    resource: N1c0\LessonBundle\Controller\IntroductionController
-    name_prefix:  api_1_ # naming collision
-
 n1c0_lesson_chapter:
     type: rest
     parent: n1c0_lesson_lesson
     resource: N1c0\LessonBundle\Controller\ChapterController
-    name_prefix:  api_1_ # naming collision
-
-n1c0_lesson_argument:
-    type: rest
-    parent: n1c0_lesson_chapter
-    resource: N1c0\LessonBundle\Controller\ArgumentController
     name_prefix:  api_1_ # naming collision
 
 n1c0_lesson_conclusion:
@@ -34,22 +22,10 @@ n1c0_lesson_lesson_logs:
     resource: N1c0\LessonBundle\Controller\LogLessonController
     name_prefix:  api_1_ # naming coll
 
-n1c0_lesson_introduction_logs:
-    type: rest
-    parent: n1c0_lesson_introduction
-    resource: N1c0\LessonBundle\Controller\LogIntroductionController
-    name_prefix:  api_1_ # naming collisionision
-
 n1c0_lesson_chapter_logs:
     type: rest
     parent: n1c0_lesson_chapter
     resource: N1c0\LessonBundle\Controller\LogChapterController
-    name_prefix:  api_1_ # naming collisionision
-
-n1c0_lesson_argument_logs:
-    type: rest
-    parent: n1c0_lesson_argument
-    resource: N1c0\LessonBundle\Controller\LogArgumentController
     name_prefix:  api_1_ # naming collisionision
 
 n1c0_lesson_conclusion_logs:
