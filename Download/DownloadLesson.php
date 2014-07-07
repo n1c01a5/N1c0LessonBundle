@@ -34,24 +34,15 @@ class DownloadLesson
         $raw .= $lesson->getBody();
 
 
-        $lenghtElement = count($lesson->getIntroductions());
-
-        for($i = 0; $i < $lenghtElement; $i++) {
-            $raw .= "\r\n";
-            $raw .= "\r\n";
-            $raw .= '##'.$lesson->getIntroductions()[$i]->getTitle();
-            $raw .= "\r\n";
-            $raw .= $lesson->getIntroductions()[$i]->getBody();
-        }
         
-        $lenghtElement = count($lesson->getArguments());
+        $lenghtElement = count($lesson->getChapters());
 
         for($i = 0; $i < $lenghtElement; $i++) {
             $raw .= "\r\n";
             $raw .= "\r\n";
-            $raw .= '##'.$lesson->getArguments()[$i]->getTitle();
+            $raw .= '##'.$lesson->getChapters()[$i]->getTitle();
             $raw .= "\r\n";
-            $raw .= $lesson->getArguments()[$i]->getBody();
+            $raw .= $lesson->getChapters()[$i]->getBody();
         }
 
         $options = array(

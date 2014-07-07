@@ -1,6 +1,6 @@
 <h1>Edit Introduction Form</h1>
 {%  if (form is not null) %}
-    <form action="{{ url('api_1_put_lesson_introduction') }}" method="PATCH" {{ form_enctype(form) }}>
+    <form action="{{ url('api_1_put_lesson_lesson') }}" method="PATCH" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <input type="submit" value="submit">
     </form>
