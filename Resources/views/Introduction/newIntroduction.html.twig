@@ -1,7 +1,0 @@
-<h1>Create an new chaptery form</h1>
-{%  if (form is not null) %}
-    <form action="{{ url('api_1_post_lesson_introduction', {'id':id}) }}" method="POST" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-    <input id="driver" type="submit" value="submit">
-    </form>
-{% endif %}
