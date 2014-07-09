@@ -21,6 +21,7 @@ class DownloadLesson
 
         $raw = '%'.$lesson->getTitle(); 
         $raw .= "\r\n";
+        $raw .= '%'; 
 
         foreach($lesson->getAuthors() as $author) {
             $raw .= $author.' ;';
@@ -29,20 +30,28 @@ class DownloadLesson
         $raw .= "\r\n";
         $raw .= '%'.$lesson->getCreatedAt()->format("m M Y");      
         $raw .= "\r\n";
-        $raw .= "# Sujet de la lesson";
+        $raw .= "# Introduction";
         $raw .= "\r\n";
         $raw .= $lesson->getBody();
 
-
-        
         $lenghtElement = count($lesson->getChapters());
 
         for($i = 0; $i < $lenghtElement; $i++) {
             $raw .= "\r\n";
             $raw .= "\r\n";
-            $raw .= '##'.$lesson->getChapters()[$i]->getTitle();
+            $raw .= '#'.$lesson->getChapters()[$i]->getTitle();
             $raw .= "\r\n";
             $raw .= $lesson->getChapters()[$i]->getBody();
+        }
+
+        $lenghtElement = count($lesson->getConclusions());
+
+        for($i = 0; $i < $lenghtElement; $i++) {
+            $raw .= "\r\n";
+            $raw .= "\r\n";
+            $raw .= '#'.$lesson->getConclusions()[$i]->getTitle();
+            $raw .= "\r\n";
+            $raw .= $lesson->getConclusions()[$i]->getBody();
         }
 
         $options = array(

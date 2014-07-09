@@ -154,8 +154,8 @@ class ConclusionController extends FOSRestController
         $form->setData($conclusion);
     
         return array(
-            'form' => $form,
-            'id'=>$id,
+            'form'         => $form,
+            'id'           =>$id,
             'conclusionId' => $conclusion->getId()
         );
     }

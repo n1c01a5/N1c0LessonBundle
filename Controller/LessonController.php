@@ -125,7 +125,10 @@ class LessonController extends FOSRestController
         $form = $this->container->get('n1c0_lesson.form_factory.lesson')->createForm();
         $form->setData($lesson);
     
-        return array('form' => $form, 'id'=>$id);
+        return array(
+            'form' => $form, 
+            'id'=>$id
+        );
     }
 
     /**
