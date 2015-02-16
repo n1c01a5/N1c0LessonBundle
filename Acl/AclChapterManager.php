@@ -41,9 +41,9 @@ class AclChapterManager implements ChapterManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
-        $chapters = $this->realManager->all();
+        $chapters = $this->realManager->all($limit, $offset);
 
         if (!$this->authorizeViewChapter($chapters)) {
             throw new AccessDeniedException();

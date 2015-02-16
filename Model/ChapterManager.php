@@ -37,7 +37,7 @@ abstract class ChapterManager implements ChapterManagerInterface
      *
      * @return array
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
         return $this->repository->findBy(array(), null, $limit, $offset);
     }

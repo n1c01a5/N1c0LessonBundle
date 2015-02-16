@@ -41,9 +41,9 @@ class AclLessonManager implements LessonManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
-        $lessons = $this->realManager->all();
+        $lessons = $this->realManager->all($limit, $offset);
 
         if (!$this->authorizeViewLesson($lessons)) {
             throw new AccessDeniedException();

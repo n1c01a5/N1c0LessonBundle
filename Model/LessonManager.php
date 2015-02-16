@@ -36,7 +36,7 @@ abstract class LessonManager implements LessonManagerInterface
      *
      * @return array
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
         return $this->repository->findBy(array(), null, $limit, $offset);
     }
