@@ -110,7 +110,7 @@ class LessonController extends FOSRestController
      *     200 = "Returned when successful"
      *   }
      * )
-     * 
+     *
      * @Annotations\View(
      *  template = "N1c0LessonBundle:Lesson:editLesson.html.twig",
      *  templateVar = "form"
@@ -124,9 +124,9 @@ class LessonController extends FOSRestController
         $lesson = $this->getOr404($id);
         $form = $this->container->get('n1c0_lesson.form_factory.lesson')->createForm();
         $form->setData($lesson);
-    
+
         return array(
-            'form' => $form, 
+            'form' => $form,
             'id'=>$id
         );
     }
@@ -168,7 +168,7 @@ class LessonController extends FOSRestController
 
                 if ($form->isValid()) {
                     $lessonManager->saveLesson($lesson);
-                
+
                     $routeOptions = array(
                         'id' => $form->getData()->getId(),
                         '_format' => $request->get('_format')
@@ -406,9 +406,9 @@ class LessonController extends FOSRestController
      * )
      *
      * @param int     $id      the lesson uuid
-     * @param string  $format  the format to convert lesson 
+     * @param string  $format  the format to convert lesson
      *
-     * @return Response
+     * @return null
      * @throws NotFoundHttpException when lesson not exist
      */
     public function getLessonConvertAction($id, $format)
@@ -419,9 +419,6 @@ class LessonController extends FOSRestController
 
         $lessonConvert = $this->container->get('n1c0_lesson.lesson.download')->getConvert($id, $format);
 
-        $response = new Response();
-        $response->setContent($lessonConvert);
-        $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
                 $ext = "";
@@ -466,13 +463,20 @@ class LessonController extends FOSRestController
                 $ext = "epub";
             break;
             default:
-                $ext = $format;       
-        }        
-        $response->headers->set('Content-disposition', 'filename='.$lesson->getTitle().'.'.$ext);
-         
-        return $response;
+                $ext = $format;
+        }
+
+        if ($ext == "") {$ext = "txt";}
+        $filename = $lesson->getTitle().'.'.$ext;
+        $fh = fopen('./uploads/'.$filename, "w+");
+        if ($fh==false) {
+            die("Oops! Unable to create file");
+        }
+        fputs($fh, $lessonConvert);
+
+        return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
-    
+
     /**
      * Get logs of a single Lesson.
      *
@@ -500,7 +504,7 @@ class LessonController extends FOSRestController
         $repo = $em->getRepository('Gedmo\Loggable\Entity\LogEntry'); // we use default log entry class
         $entity = $em->find('Entity\Lesson', $lesson->getId());
         $logs = $repo->getLogEntries($entity);
-        
+
         return $logs;
     }
 }

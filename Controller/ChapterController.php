@@ -52,7 +52,7 @@ class ChapterController extends FOSRestController
         if (!$lesson) {
             throw new NotFoundHttpException(sprintf('Lesson with identifier of "%s" does not exist', $id));
         }
-        
+
         return $this->getOr404($chapterId);
     }
 
@@ -118,7 +118,7 @@ class ChapterController extends FOSRestController
         $form->setData($chapter);
 
         return array(
-            'form' => $form, 
+            'form' => $form,
             'id' => $id
         );
     }
@@ -132,7 +132,7 @@ class ChapterController extends FOSRestController
      *     200 = "Returned when successful"
      *   }
      * )
-     * 
+     *
      * @Annotations\View(
      *  template = "N1c0LessonBundle:Chapter:editChapter.html.twig",
      *  templateVar = "form"
@@ -152,7 +152,7 @@ class ChapterController extends FOSRestController
         $chapter = $this->getOr404($chapterId);
         $form = $this->container->get('n1c0_lesson.form_factory.chapter')->createForm();
         $form->setData($chapter);
-    
+
         return array(
             'form' => $form,
             'id'=>$id,
@@ -181,7 +181,7 @@ class ChapterController extends FOSRestController
      * )
      *
      * @param Request $request the request object
-     * @param string  $id      The id of the lesson 
+     * @param string  $id      The id of the lesson
      *
      * @return FormTypeInterface|View
      */
@@ -204,7 +204,7 @@ class ChapterController extends FOSRestController
 
                 if ($form->isValid()) {
                     $chapterManager->saveChapter($chapter);
-                
+
                     $routeOptions = array(
                         'id' => $id,
                         'chapterId' => $form->getData()->getId(),
@@ -212,11 +212,11 @@ class ChapterController extends FOSRestController
                     );
 
                     $response['success'] = true;
-                    
+
                     $request = $this->container->get('request');
                     $isAjax = $request->isXmlHttpRequest();
 
-                    if($isAjax == false) { 
+                    if($isAjax == false) {
                         // Add a method onCreateChapterSuccess(FormInterface $form)
                         return $this->routeRedirectView('api_1_get_lesson_chapter', $routeOptions, Codes::HTTP_CREATED);
                     }
@@ -249,7 +249,7 @@ class ChapterController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the lesson 
+     * @param string  $id              the id of the lesson
      * @param int     $chapterId      the chapter id
      *
      * @return FormTypeInterface|View
@@ -274,7 +274,7 @@ class ChapterController extends FOSRestController
                 $chapterManager = $this->container->get('n1c0_lesson.manager.chapter');
                 if ($chapterManager->saveChapter($chapter) !== false) {
                     $routeOptions = array(
-                        'id' => $lesson->getId(),                  
+                        'id' => $lesson->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -307,7 +307,7 @@ class ChapterController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the lesson 
+     * @param string  $id              the id of the lesson
      * @param int     $chapterId      the chapter id
 
      * @return FormTypeInterface|View
@@ -332,7 +332,7 @@ class ChapterController extends FOSRestController
                 $chapterManager = $this->container->get('n1c0_lesson.manager.chapter');
                 if ($chapterManager->saveChapter($chapter) !== false) {
                     $routeOptions = array(
-                        'id' => $lesson->getId(),                  
+                        'id' => $lesson->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -341,7 +341,7 @@ class ChapterController extends FOSRestController
             }
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
-        }   
+        }
     }
 
     /**
@@ -445,7 +445,7 @@ class ChapterController extends FOSRestController
         );
 
         return array(
-            'formats'    => $formats, 
+            'formats'    => $formats,
             'chapter'   => $chapter
         );
     }
@@ -463,9 +463,9 @@ class ChapterController extends FOSRestController
      *
      * @param int     $id              the lesson uuid
      * @param int     $chapterId      the chapter uuid
-     * @param string  $format          the format to convert lesson 
+     * @param string  $format          the format to convert lesson
      *
-     * @return Response
+     * @return null
      * @throws NotFoundHttpException when lesson not exist
      * @throws NotFoundHttpException when chapter not exist
      */
@@ -481,9 +481,6 @@ class ChapterController extends FOSRestController
 
         $chapterConvert = $this->container->get('n1c0_lesson.chapter.download')->getConvert($chapterId, $format);
 
-        $response = new Response();
-        $response->setContent($chapterConvert);
-        $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
                 $ext = "";
@@ -528,12 +525,18 @@ class ChapterController extends FOSRestController
                 $ext = "epub";
             break;
             default:
-                $ext = $format;       
+                $ext = $format;
         }
-        
-        $response->headers->set('Content-disposition', 'filename='.$chapter->getTitle().'.'.$ext);
-         
-        return $response;
+
+        if ($ext == "") {$ext = "txt";}
+        $filename = $chapter->getTitle().'.'.$ext;
+        $fh = fopen('./uploads/'.$filename, "w+");
+        if($fh==false) {
+            die("Oops! Unable to create file");
+        }
+        fputs($fh, $chapterConvert);
+
+        return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
 
 }
