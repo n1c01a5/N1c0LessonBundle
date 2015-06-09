@@ -4,7 +4,7 @@ namespace N1c0\LessonBundle\Download;
 
 use Pandoc\Pandoc;
 
-class DownloadLesson 
+class DownloadLesson
 {
     private $appLesson;
 
@@ -19,16 +19,16 @@ class DownloadLesson
 
         $lesson = $this->appLesson->findLessonById($id);
 
-        $raw = '%'.$lesson->getTitle(); 
-        $raw .= "\r\n";
-        $raw .= '%'; 
-
+        $title = $lesson->getTitle();
+        $authors = "";
         foreach($lesson->getAuthors() as $author) {
-            $raw .= $author.' ;';
+            $authors .= $author.' ';
         }
+        $date = $lesson->getCreatedAt()->format("m M Y");
+
+        $raw = "Title: $title \nAuthor: $authors \nDate: $date";
 
         $raw .= "\r\n";
-        $raw .= '%'.$lesson->getCreatedAt()->format("m M Y");      
         $raw .= "\r\n";
         $raw .= "# Introduction";
         $raw .= "\r\n";
@@ -37,26 +37,26 @@ class DownloadLesson
         $lenghtElement = count($lesson->getChapters());
 
         for($i = 0; $i < $lenghtElement; $i++) {
-            $raw .= "\r\n";
-            $raw .= "\r\n";
+            $raw .= "\n\n";
+            $raw .= "\n\n";
             $raw .= '#'.$lesson->getChapters()[$i]->getTitle();
-            $raw .= "\r\n";
+            $raw .= "\n\n";
             $raw .= $lesson->getChapters()[$i]->getBody();
         }
 
         $lenghtElement = count($lesson->getConclusions());
 
         for($i = 0; $i < $lenghtElement; $i++) {
-            $raw .= "\r\n";
-            $raw .= "\r\n";
+            $raw .= "\n\n";
+            $raw .= "\n\n";
             $raw .= '#'.$lesson->getConclusions()[$i]->getTitle();
-            $raw .= "\r\n";
+            $raw .= "\n\n";
             $raw .= $lesson->getConclusions()[$i]->getBody();
         }
 
         $options = array(
             "latex-engine" => "xelatex",
-            "from"         => "markdown",
+            "from"         => "markdown_mmd",
             "to"           => $format,
             "toc"          => null
         );

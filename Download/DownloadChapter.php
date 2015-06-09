@@ -4,7 +4,7 @@ namespace N1c0\LessonBundle\Download;
 
 use Pandoc\Pandoc;
 
-class DownloadChapter 
+class DownloadChapter
 {
     private $appChapter;
 
@@ -18,24 +18,22 @@ class DownloadChapter
         $pandoc = new Pandoc();
 
         $chapter = $this->appChapter->findChapterById($id);
-
-        $raw = '% efez'.$chapter->getTitle(); 
-        $raw .= "\r\n";
-        $raw .= '%'; 
-
+        $title = $chapter->getTitle();
+        $authors = "";
         foreach($chapter->getAuthors() as $author) {
-            $raw .= $author.' ;';
+            $authors .= $author.' ;';
         }
+        $date = $chapter->getCreatedAt()->format("m M Y");
 
+        $raw = "Title: $title \nAuthor: $authors \nDate: $date";
         $raw .= "\r\n";
-        $raw .= '%'.$chapter->getCreatedAt()->format("m M Y");      
         $raw .= "\r\n";
         $raw .= $chapter->getBody();
 
 
         $options = array(
             "latex-engine" => "xelatex",
-            "from"         => "markdown",
+            "from"         => "markdown_mmd",
             "to"           => $format
         );
 

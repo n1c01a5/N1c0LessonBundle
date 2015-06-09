@@ -4,7 +4,7 @@ namespace N1c0\LessonBundle\Download;
 
 use Pandoc\Pandoc;
 
-class DownloadConclusion 
+class DownloadConclusion
 {
     private $appConclusion;
 
@@ -19,23 +19,20 @@ class DownloadConclusion
 
         $conclusion = $this->appConclusion->findConclusionById($id);
 
-        $raw = '%'.$conclusion->getTitle(); 
-        $raw .= "\r\n";
-        $raw .= '%';
-
+        $title = $conclusion->getTitle();
+        $authors = "";
         foreach($conclusion->getAuthors() as $author) {
-            $raw .= $author.' ;';
+            $authors = $author.' ';
         }
-
-        $raw .= "\r\n";
-        $raw .= '%'.$conclusion->getCreatedAt()->format("m M Y");      
-        $raw .= "\r\n";
+        $date = $conclusion->getCreatedAt()->format("m M Y");
+        $raw = "Title: $title \nAuthor: $authors \nDate: $date";
+        $raw .= "\n\n";
         $raw .= $conclusion->getBody();
 
 
         $options = array(
             "latex-engine" => "xelatex",
-            "from"         => "markdown",
+            "from"         => "markdown_mmd",
             "to"           => $format
         );
 
