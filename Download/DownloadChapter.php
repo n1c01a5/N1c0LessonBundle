@@ -33,7 +33,7 @@ class DownloadChapter
 
         $options = array(
             "latex-engine" => "xelatex",
-            "from"         => "markdown_mmd",
+            "from"         => "markdown_github",
             "to"           => $format
         );
 
