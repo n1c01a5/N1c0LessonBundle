@@ -56,7 +56,7 @@ class DownloadLesson
 
         $options = array(
             "latex-engine" => "xelatex",
-            "from"         => "markdown_github",
+            "from"         => "markdown_mmd",
             "to"           => $format,
             "toc"          => null
         );

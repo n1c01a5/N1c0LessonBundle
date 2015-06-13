@@ -32,7 +32,7 @@ class DownloadConclusion
 
         $options = array(
             "latex-engine" => "xelatex",
-            "from"         => "markdown_github",
+            "from"         => "markdown_mmd",
             "to"           => $format
         );
 
