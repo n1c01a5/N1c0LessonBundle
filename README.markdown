@@ -535,3 +535,5 @@ Documentation as bonus (NelmioApiDocBundle)
 -------------------------------------------
 
 Go to http://localhost:8000/api/doc.
+
+git@github.com:n1c01a5/N1c0DissertationBundle.git
