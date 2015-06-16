@@ -536,4 +536,4 @@ Documentation as bonus (NelmioApiDocBundle)
 
 Go to http://localhost:8000/api/doc.
 
-git@github.com:n1c01a5/N1c0DissertationBundle.git
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/31674dc9-e7f6-4fdb-ba9e-0122a7fc7d0e/big.png)](https://insight.sensiolabs.com/projects/31674dc9-e7f6-4fdb-ba9e-0122a7fc7d0e)
