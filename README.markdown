@@ -1,6 +1,8 @@
 n1c0LessonBundle
 ======================
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/3e0da92d-f0c0-4f03-9a00-3907fe88030e/mini.png)](https://insight.sensiolabs.com/projects/3e0da92d-f0c0-4f03-9a00-3907fe88030e)
+
 Bundle to manage lessons.
 
 Step 1: Setting up the bundle
@@ -535,5 +537,3 @@ Documentation as bonus (NelmioApiDocBundle)
 -------------------------------------------
 
 Go to http://localhost:8000/api/doc.
-
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/31674dc9-e7f6-4fdb-ba9e-0122a7fc7d0e/big.png)](https://insight.sensiolabs.com/projects/31674dc9-e7f6-4fdb-ba9e-0122a7fc7d0e)
