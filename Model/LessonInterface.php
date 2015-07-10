@@ -31,7 +31,7 @@ Interface LessonInterface
      * @return \DateTime
      */
     public function getCreatedAt();
-    
+
     /**
      * Set title
      *
@@ -43,7 +43,7 @@ Interface LessonInterface
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle();
 
@@ -58,7 +58,7 @@ Interface LessonInterface
     /**
      * Get body
      *
-     * @return string 
+     * @return string
      */
     public function getBody();
 
@@ -73,7 +73,7 @@ Interface LessonInterface
     /**
      * Get commitTitle
      *
-     * @return string 
+     * @return string
      */
     public function getCommitTitle();
 
@@ -88,7 +88,7 @@ Interface LessonInterface
     /**
      * Get commitBody
      *
-     * @return string 
+     * @return string
      */
     public function getCommitBody();
 

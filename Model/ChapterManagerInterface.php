@@ -47,4 +47,20 @@ interface ChapterManagerInterface
      * @param  ChapterInterface         $chapter
      */
     public function saveChapter(ChapterInterface $chapter);
+
+    /**
+     * Removes a chapter
+     *
+     * @param ChapterInterface $chapter
+     */
+    public function removechapter(ChapterInterface $chapter);
+
+    /**
+     * Checks if the chapter was already persisted before, or if it's a new one.
+     *
+     * @param ChapterInterface $chapter
+     *
+     * @return boolean True, if it's a new chapter
+     */
+    public function isNewChapter(ChapterInterface $chapter);
 }

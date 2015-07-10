@@ -99,10 +99,30 @@ abstract class ChapterManager implements ChapterManagerInterface
     }
 
     /**
+     * Removes an chapter of the lesson.
+     *
+     * @param ChapterInterface $chapter
+     */
+    public function removeChapter(ChapterInterface $chapter)
+    {
+        $this->doRemoveChapter($chapter);
+
+        return true;
+    }
+
+    /**
      * Performs the persistence of a chapter.
      *
      * @abstract
      * @param ChapterInterface $chapter
      */
     abstract protected function doSaveChapter(ChapterInterface $chapter);
+
+    /**
+     * Removes an chapter of the Lesson.
+     *
+     * @abstract
+     * @param ChapterInterface $chapter
+     */
+    abstract protected function doRemoveChapter(ChapterInterface $chapter);
 }

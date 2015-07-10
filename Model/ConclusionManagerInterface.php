@@ -47,4 +47,20 @@ interface ConclusionManagerInterface
      * @param  ConclusionInterface         $conclusion
      */
     public function saveConclusion(ConclusionInterface $conclusion);
+
+    /**
+     * Removes a conclusion
+     *
+     * @param ConclusionInterface $conclusion
+     */
+    public function removeConclusion(ConclusionInterface $conclusion);
+
+    /**
+     * Checks if the conclusion was already persisted before, or if it's a new one.
+     *
+     * @param ConclusionInterface $conclusion
+     *
+     * @return boolean True, if it's a new conclusion
+     */
+    public function isNewConclusion(ConclusionInterface $conclusion);
 }

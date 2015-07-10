@@ -32,7 +32,7 @@ class ChapterManager extends BaseChapterManager
     /**
      * Constructor.
      *
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher 
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
      * @param \Doctrine\ORM\EntityManager                                 $em
      * @param string                                                      $class
      */
@@ -90,14 +90,33 @@ class ChapterManager extends BaseChapterManager
     }
 
     /**
-     * Performs persisting of the chapter. 
+     * {@inheritDoc}
+     */
+    public function isNewChapter(ChapterInterface $chapter)
+    {
+        return !$this->em->getUnitOfWork()->isInIdentityMap($chapter);
+    }
+
+    /**
+     * Performs persisting of the chapter.
      *
-     * @param LessonInterface $lesson
+     * @param ChapterInterface $chapter
      */
     protected function doSaveChapter(ChapterInterface $chapter)
     {
         $this->em->persist($chapter->getLesson());
         $this->em->persist($chapter);
+        $this->em->flush();
+    }
+
+    /**
+     * Removes an chapter of the dissertation
+     *
+     * @param ChapterInterface $chapter
+     */
+    protected function doRemoveChapter(ChapterInterface $chapter)
+    {
+        $this->em->remove($chapter);
         $this->em->flush();
     }
 

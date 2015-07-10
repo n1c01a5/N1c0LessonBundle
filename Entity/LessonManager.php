@@ -84,6 +84,17 @@ class LessonManager extends BaseLessonManager
     }
 
     /**
+     * Removes an argument of the dissertation
+     *
+     * @param LessonInterface $argument
+     */
+    protected function doRemoveLesson(LessonInterface $lesson)
+    {
+        $this->em->remove($lesson);
+        $this->em->flush();
+    }
+
+    /**
      * Saves a lesson
      *
      * @param LessonInterface $lesson

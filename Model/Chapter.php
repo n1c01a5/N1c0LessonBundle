@@ -10,7 +10,7 @@ use DateTime;
 abstract class Chapter implements ChapterInterface
 {
     /**
-     *Chapter id 
+     *Chapter id
      *
      * @var mixed
      */
@@ -29,7 +29,7 @@ abstract class Chapter implements ChapterInterface
      * @var string
      */
     protected $body;
-    
+
     /**
      * Should be mapped by the end developer.
      *
@@ -56,6 +56,20 @@ abstract class Chapter implements ChapterInterface
      */
     protected $createdAt;
 
+    /**
+     * Current state of the chapter.
+     *
+     * @var integer
+     */
+    protected $state = 0;
+
+    /**
+     * The previous state of the chapter.
+     *
+     * @var integer
+     */
+    protected $previousState = 0;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -68,7 +82,7 @@ abstract class Chapter implements ChapterInterface
     {
         return $this->id;
     }
-    
+
     /**
      * @return string
      */
@@ -179,6 +193,29 @@ abstract class Chapter implements ChapterInterface
     public function getAuthorsName()
     {
         return 'Anonymous';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+    /**
+     * {@inheritDoc}
+     */
+    public function setState($state)
+    {
+        $this->previousState = $this->state;
+        $this->state = $state;
+    }
+    /**
+     * {@inheritDoc}
+     */
+    public function getPreviousState()
+    {
+        return $this->previousState;
     }
 
     /**

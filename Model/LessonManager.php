@@ -93,10 +93,30 @@ abstract class LessonManager implements LessonManagerInterface
     }
 
     /**
+     * Removes an lesson.
+     *
+     * @param LessonInterface $lesson
+     */
+    public function removeLesson(LessonInterface $lesson)
+    {
+        $this->doRemoveLesson($lesson);
+
+        return true;
+    }
+
+    /**
      * Performs the persistence of the Lesson.
      *
      * @abstract
      * @param LessonInterface $lesson
      */
     abstract protected function doSaveLesson(LessonInterface $lesson);
+
+    /**
+     * Removes an lesson of the Dissertation.
+     *
+     * @abstract
+     * @param LessonInterface $lesson
+     */
+    abstract protected function doRemoveLesson(LessonInterface $lesson);
 }

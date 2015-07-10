@@ -75,6 +75,13 @@ interface LessonManagerInterface
     public function isNewLesson(LessonInterface $lesson);
 
     /**
+     * Removes a lesson
+     *
+     * @param LessonInterface $lesson
+     */
+    public function removeLesson(LessonInterface $lesson);
+
+    /**
      * Returns the element lesson fully qualified class name
      *
      * @return string

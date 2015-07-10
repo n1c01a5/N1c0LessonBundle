@@ -68,7 +68,7 @@ class AclChapterManager implements ChapterManagerInterface
      * {@inheritDoc}
      */
     public function findAllChapters(){
-    }                 
+    }
 
 
     /**
@@ -97,6 +97,18 @@ class AclChapterManager implements ChapterManagerInterface
         if ($newChapter) {
             $this->chapterAcl->setDefaultAcl($chapter);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeChapter(ChapterInterface $chapter)
+    {
+        if (!$this->chapterAcl->canDelete($chapter)) {
+            throw new AccessDeniedException();
+        }
+
+        $this->realManager->removeChapter($chapter);
     }
 
     /**

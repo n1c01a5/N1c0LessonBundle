@@ -68,7 +68,7 @@ class AclLessonManager implements LessonManagerInterface
      * {@inheritDoc}
      */
     public function findAllLessons(){
-    }                 
+    }
 
 
     /**
@@ -97,6 +97,18 @@ class AclLessonManager implements LessonManagerInterface
         if ($newLesson) {
             $this->lessonAcl->setDefaultAcl($lesson);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeLesson(LessonInterface $lesson)
+    {
+        if (!$this->lessonAcl->canDelete($lesson)) {
+            throw new AccessDeniedException();
+        }
+
+        $this->realManager->removeLesson($lesson);
     }
 
     /**

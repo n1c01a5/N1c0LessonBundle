@@ -68,7 +68,7 @@ class AclConclusionManager implements ConclusionManagerInterface
      * {@inheritDoc}
      */
     public function findAllConclusions(){
-    }                 
+    }
 
 
     /**
@@ -111,6 +111,18 @@ class AclConclusionManager implements ConclusionManagerInterface
         }
 
         return $conclusion;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeConclusion(ConclusionInterface $conclusion)
+    {
+        if (!$this->conclusionAcl->canDelete($conclusion)) {
+            throw new AccessDeniedException();
+        }
+
+        $this->realManager->removeConclusion($conclusion);
     }
 
     /**
