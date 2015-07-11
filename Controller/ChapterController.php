@@ -368,6 +368,32 @@ class ChapterController extends FOSRestController
     }
 
     /**
+     * Removes an chapter of the lesson.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes={
+     *     204="Returned when successful"
+     *   }
+     * )
+     *
+     * @param Request $request         the request object
+     * @param int     $id              the lesson id of the chapter
+     * @param int     $chapterId      the chapter id
+     *
+     * @return RouteRedirectView
+     */
+    public function deleteChapterAction(Request $request, $id, $chapterId)
+    {
+        $chapterManager = $this->container->get('n1c0_lesson.manager.chapter');
+        $chapter = $this->getOr404($chapterId);
+
+        $chapterManager->removeChapter($chapter);
+
+        return $this->routeRedirectView('api_1_get_lesson', array('id' => $id), Codes::HTTP_NO_CONTENT);
+    }
+
+    /**
      * Fetch a Chapter or throw an 404 Exception.
      *
      * @param mixed $id

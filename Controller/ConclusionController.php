@@ -368,6 +368,32 @@ class ConclusionController extends FOSRestController
     }
 
     /**
+     * Removes an conclusion of the lesson.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes={
+     *     204="Returned when successful"
+     *   }
+     * )
+     *
+     * @param Request $request         the request object
+     * @param int     $id              the lesson id of the conclusion
+     * @param int     $conclusionId    the conclusion id
+     *
+     * @return RouteRedirectView
+     */
+    public function deleteConclusionAction(Request $request, $id, $conclusionId)
+    {
+        $conclusionManager = $this->container->get('n1c0_lesson.manager.conclusion');
+        $conclusion = $this->getOr404($conclusionId);
+
+        $conclusionManager->removeConclusion($conclusion);
+
+        return $this->routeRedirectView('api_1_get_lesson', array('id' => $id), Codes::HTTP_NO_CONTENT);
+    }
+
+    /**
      * Fetch a Conclusion or throw an 404 Exception.
      *
      * @param mixed $id

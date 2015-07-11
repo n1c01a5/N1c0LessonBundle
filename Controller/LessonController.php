@@ -318,6 +318,31 @@ class LessonController extends FOSRestController
     }
 
     /**
+     * Removes a lesson.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes={
+     *     204="Returned when successful"
+     *   }
+     * )
+     *
+     * @param Request $request         the request object
+     * @param int     $id              the lesson id
+     *
+     * @return RouteRedirectView
+     */
+    public function deleteLessonAction(Request $request, $id)
+    {
+        $lessonManager = $this->container->get('n1c0_lesson.manager.lesson');
+        $lesson = $this->getOr404($id);
+
+        $lessonManager->removeLesson($lesson);
+
+        return $this->routeRedirectView('api_1_get_lessons', array(), Codes::HTTP_NO_CONTENT);
+    }
+
+    /**
      * Fetch a Lesson or throw an 404 Exception.
      *
      * @param mixed $id
