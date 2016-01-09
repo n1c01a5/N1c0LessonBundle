@@ -2,7 +2,7 @@
 
 namespace N1c0\LessonBundle\Acl;
 
-use N1c0\ConclusionBundle\Model\ConclusionInterface;
+use N1c0\LessonBundle\Model\ConclusionInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**

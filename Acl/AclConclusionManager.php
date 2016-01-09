@@ -2,6 +2,7 @@
 
 namespace N1c0\LessonBundle\Acl;
 
+use N1c0\LessonBundle\Model\LessonInterface;
 use N1c0\LessonBundle\Model\ConclusionInterface;
 use N1c0\LessonBundle\Model\ConclusionManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -70,6 +71,19 @@ class AclConclusionManager implements ConclusionManagerInterface
     public function findAllConclusions(){
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function findConclusionsByLesson(LessonInterface $lesson)
+    {
+        $conclusions = $this->realManager->findConclusionsByLesson($lesson);
+
+        if (!$this->authorizeViewConclusion($conclusions)) {
+            throw new AccessDeniedException();
+        }
+
+        return $conclusions;
+    }
 
     /**
      * {@inheritDoc}
@@ -128,9 +142,9 @@ class AclConclusionManager implements ConclusionManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function createConclusion($id = null)
+    public function createConclusion(LessonInterface $lesson)
     {
-        return $this->realManager->createConclusion($id);
+        return $this->realManager->createConclusion($lesson);
     }
 
     /**

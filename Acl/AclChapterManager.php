@@ -2,6 +2,7 @@
 
 namespace N1c0\LessonBundle\Acl;
 
+use N1c0\LessonBundle\Model\LessonInterface;
 use N1c0\LessonBundle\Model\ChapterInterface;
 use N1c0\LessonBundle\Model\ChapterManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -127,10 +128,24 @@ class AclChapterManager implements ChapterManagerInterface
 
     /**
      * {@inheritDoc}
-     */
-    public function createChapter($id = null)
+     **/
+    public function findChaptersByLesson(LessonInterface $lesson)
     {
-        return $this->realManager->createChapter($id);
+        $chapters = $this->realManager->findChaptersByLesson($lesson);
+
+        if (!$this->authorizeViewChapter($chapters)) {
+            throw new AccessDeniedException();
+        }
+
+        return $chapters;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createChapter(LessonInterface $lesson)
+    {
+        return $this->realManager->createChapter($lesson);
     }
 
     /**
